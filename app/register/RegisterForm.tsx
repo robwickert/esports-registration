@@ -72,7 +72,19 @@ export default function RegisterForm() {
       return
     }
 
-    // 2. Get active championship
+    // 2. Sign in immediately so the session is established for RLS
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    })
+
+    if (signInError) {
+      setError('Account created but could not sign in automatically. Please log in manually.')
+      setLoading(false)
+      return
+    }
+
+    // 3. Get active championship
     const slug =
       process.env.NEXT_PUBLIC_CHAMPIONSHIP_SLUG ?? 'fia-motorsport-games-2026'
     const { data: championship } = await supabase
@@ -87,7 +99,7 @@ export default function RegisterForm() {
       return
     }
 
-    // 3. Create registration
+    // 4. Create registration
     const { error: regError } = await supabase.from('registrations').insert({
       championship_id: championship.id,
       user_id: authData.user.id,
