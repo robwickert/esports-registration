@@ -59,8 +59,13 @@ export default function AdminTable({ registrations, countries, currentCountry }:
       new Date(r.created_at).toISOString(),
     ])
 
+    const safeCsvCell = (value: string) => {
+      const escaped = value.replace(/"/g, '""')
+      return /^[=+\-@\t\r]/.test(value) ? `"'${escaped}"` : `"${escaped}"`
+    }
+
     const csv = [headers, ...rows]
-      .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+      .map((row) => row.map((cell) => safeCsvCell(String(cell))).join(','))
       .join('\n')
 
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })

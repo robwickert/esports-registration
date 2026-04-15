@@ -25,21 +25,21 @@ export default function LoginForm({ redirectTo }: { redirectTo?: string }) {
       return
     }
 
-    if (redirectTo) {
-      router.push(redirectTo)
-    } else {
-      const { data: { user } } = await supabase.auth.getUser()
-      let destination = '/registrations'
-      if (user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_admin')
-          .eq('id', user.id)
-          .single()
-        if (profile?.is_admin) destination = '/admin'
-      }
-      router.push(destination)
+    const { data: { user } } = await supabase.auth.getUser()
+    let destination = '/registrations'
+    if (user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', user.id)
+        .single()
+      if (profile?.is_admin) destination = '/admin'
     }
+    // Only honour redirectTo if it is a safe internal relative path
+    if (redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//')) {
+      destination = redirectTo
+    }
+    router.push(destination)
     router.refresh()
   }
 
