@@ -59,7 +59,7 @@ export default async function RegistrationsPage({
           {profile?.is_admin && (
             <Link
               href="/admin"
-              className="rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
+              className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
             >
               Admin Panel
             </Link>
@@ -67,7 +67,7 @@ export default async function RegistrationsPage({
           <form action={signOut}>
             <button
               type="submit"
-              className="rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
+              className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
             >
               Sign Out
             </button>
@@ -107,7 +107,7 @@ export default async function RegistrationsPage({
           </p>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded bg-[var(--accent)] px-6 py-3 text-sm font-bold text-white tracking-wide uppercase hover:bg-[var(--accent-hover)] transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-bold text-white tracking-wide uppercase hover:bg-[var(--accent-hover)] transition-colors"
           >
             Register Now
           </Link>
@@ -122,7 +122,7 @@ export default async function RegistrationsPage({
             </div>
             <Link
               href="/registrations/edit"
-              className="rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
+              className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
             >
               Edit
             </Link>

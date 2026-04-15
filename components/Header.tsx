@@ -45,7 +45,7 @@ export default function Header() {
                 key={href}
                 href={href}
                 className={[
-                  'px-4 py-2 text-sm font-medium tracking-wide rounded transition-colors',
+                  'px-4 py-2 text-sm font-medium tracking-wide rounded-lg transition-colors',
                   isActive
                     ? 'text-white bg-white/20'
                     : 'text-white/70 hover:text-white hover:bg-white/10',
@@ -67,7 +67,7 @@ export default function Header() {
           </Link>
           <Link
             href="/registrations"
-            className="px-4 py-2 text-sm font-medium text-[#003063] bg-white hover:bg-white/90 rounded transition-colors"
+            className="px-4 py-2 text-sm font-medium text-[#003063] bg-white hover:bg-white/90 rounded-lg transition-colors"
           >
             My Registration
           </Link>

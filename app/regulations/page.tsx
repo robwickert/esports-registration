@@ -213,7 +213,7 @@ export default function RegulationsPage() {
         </p>
         <a
           href="/register"
-          className="inline-flex items-center gap-2 rounded bg-[var(--accent)] px-8 py-3 text-sm font-bold text-white tracking-wide uppercase hover:bg-[var(--accent-hover)] transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-8 py-3 text-sm font-bold text-white tracking-wide uppercase hover:bg-[var(--accent-hover)] transition-colors"
         >
           Register Now
         </a>

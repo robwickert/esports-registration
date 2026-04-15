@@ -11,8 +11,8 @@ export default function HomePage() {
 
         <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-36">
           <div className="max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/5 px-4 py-1.5 text-xs font-medium tracking-widest text-[var(--accent)] uppercase">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+            <div className="mb-6 inline-flex items-center gap-2 rounded-lg border border-[var(--accent)]/20 bg-[var(--accent)]/5 px-4 py-1.5 text-xs font-medium tracking-widest text-[var(--accent)] uppercase">
+              <span className="h-1.5 w-1.5 rounded-lg bg-[var(--accent)] animate-pulse" />
               Registration Open — 2026 Season
             </div>
 
@@ -31,7 +31,7 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/register"
-                className="inline-flex items-center gap-2 rounded bg-[var(--accent)] px-8 py-3.5 text-sm font-bold text-white tracking-wide uppercase hover:bg-[var(--accent-hover)] transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-8 py-3.5 text-sm font-bold text-white tracking-wide uppercase hover:bg-[var(--accent-hover)] transition-colors"
               >
                 Register Now
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,7 +40,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/leaderboards"
-                className="inline-flex items-center gap-2 rounded border border-[var(--border)] bg-[var(--surface)] px-8 py-3.5 text-sm font-bold text-[var(--foreground)] tracking-wide uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-8 py-3.5 text-sm font-bold text-[var(--foreground)] tracking-wide uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
               >
                 View Leaderboards
               </Link>
@@ -122,7 +122,7 @@ export default function HomePage() {
         </p>
         <Link
           href="/register"
-          className="inline-flex items-center gap-2 rounded bg-[var(--accent)] px-10 py-4 text-sm font-bold text-white tracking-wide uppercase hover:bg-[var(--accent-hover)] transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-10 py-4 text-sm font-bold text-white tracking-wide uppercase hover:bg-[var(--accent-hover)] transition-colors"
         >
           Register Now
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

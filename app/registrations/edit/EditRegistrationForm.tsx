@@ -175,14 +175,14 @@ export default function EditRegistrationForm({ registration }: { registration: R
       <div className="flex gap-3 pt-2">
         <a
           href="/registrations"
-          className="flex-1 rounded border border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-sm font-bold text-center text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
+          className="flex-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-sm font-bold text-center text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
         >
           Cancel
         </a>
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 rounded bg-[var(--accent)] px-6 py-3 text-sm font-bold text-white tracking-wide uppercase hover:bg-[var(--accent-hover)] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex-1 rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-bold text-white tracking-wide uppercase hover:bg-[var(--accent-hover)] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? 'Saving…' : 'Save Changes'}
         </button>
