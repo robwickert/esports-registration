@@ -34,7 +34,7 @@ export default async function EditRegistrationPage() {
         <p className="text-xs font-medium tracking-widest text-[var(--accent)] uppercase mb-3">
           {championship.year} {championship.name}
         </p>
-        <h1 className="text-3xl font-black text-white">Edit Registration</h1>
+        <h1 className="text-3xl font-black text-[var(--foreground)]">Edit Registration</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">
           Update your registration details below.
         </p>

@@ -25,7 +25,21 @@ export default function LoginForm({ redirectTo }: { redirectTo?: string }) {
       return
     }
 
-    router.push(redirectTo ?? '/registrations')
+    if (redirectTo) {
+      router.push(redirectTo)
+    } else {
+      const { data: { user } } = await supabase.auth.getUser()
+      let destination = '/registrations'
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', user.id)
+          .single()
+        if (profile?.is_admin) destination = '/admin'
+      }
+      router.push(destination)
+    }
     router.refresh()
   }
 
@@ -41,7 +55,7 @@ export default function LoginForm({ redirectTo }: { redirectTo?: string }) {
           onChange={(e) => setEmail(e.target.value)}
           required
           autoComplete="email"
-          className="w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-white placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors"
+          className="w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-[var(--foreground)] placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors"
           placeholder="your@email.com"
         />
       </div>
@@ -56,13 +70,13 @@ export default function LoginForm({ redirectTo }: { redirectTo?: string }) {
           onChange={(e) => setPassword(e.target.value)}
           required
           autoComplete="current-password"
-          className="w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-white placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors"
+          className="w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-[var(--foreground)] placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors"
           placeholder="••••••••"
         />
       </div>
 
       {error && (
-        <div className="rounded border border-red-800/50 bg-red-900/20 px-4 py-3 text-sm text-red-400">
+        <div className="rounded border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
         </div>
       )}

@@ -22,7 +22,7 @@ export default async function LoginPage({
         <p className="text-xs font-medium tracking-widest text-[var(--accent)] uppercase mb-3">
           Account Access
         </p>
-        <h1 className="text-3xl font-black text-white">Sign In</h1>
+        <h1 className="text-3xl font-black text-[var(--foreground)]">Sign In</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">
           Don&apos;t have an account?{' '}
           <a href="/register" className="text-[var(--accent)] hover:underline">

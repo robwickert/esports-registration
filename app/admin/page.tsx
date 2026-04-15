@@ -68,14 +68,14 @@ export default async function AdminPage({
           <p className="text-xs font-medium tracking-widest text-[var(--accent)] uppercase mb-2">
             Admin Panel
           </p>
-          <h1 className="text-3xl font-black text-white">All Registrations</h1>
+          <h1 className="text-3xl font-black text-[var(--foreground)]">All Registrations</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">
             {championship.year} {championship.name}
           </p>
         </div>
         <a
           href="/registrations"
-          className="rounded border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-white hover:border-white transition-colors"
+          className="rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
         >
           ← Back
         </a>

@@ -14,11 +14,9 @@ type Entry = {
 
 type Props = {
   championshipId: string
-  categories: string[]
 }
 
-export default function LeaderboardsClient({ championshipId, categories }: Props) {
-  const [category, setCategory] = useState(categories[0] ?? '')
+export default function LeaderboardsClient({ championshipId }: Props) {
   const [search, setSearch] = useState('')
   const [countryFilter, setCountryFilter] = useState('')
   const [entries, setEntries] = useState<Entry[]>([])
@@ -32,8 +30,8 @@ export default function LeaderboardsClient({ championshipId, categories }: Props
       .from('leaderboard_entries')
       .select('id, position, full_name, country, car, time_display')
       .eq('championship_id', championshipId)
-      .eq('category', category)
       .order('position', { ascending: true })
+      .limit(10)
 
     if (countryFilter) {
       query = query.eq('country', countryFilter)
@@ -42,11 +40,11 @@ export default function LeaderboardsClient({ championshipId, categories }: Props
     const { data } = await query
     setEntries(data ?? [])
     setLoading(false)
-  }, [championshipId, category, countryFilter])
+  }, [championshipId, countryFilter])
 
   useEffect(() => {
-    if (category) fetchEntries()
-  }, [fetchEntries, category])
+    fetchEntries()
+  }, [fetchEntries])
 
   const filtered = search
     ? entries.filter((e) =>
@@ -54,35 +52,12 @@ export default function LeaderboardsClient({ championshipId, categories }: Props
       )
     : entries
 
-  // Unique countries from loaded entries for the filter dropdown
   const countries = [...new Set(entries.map((e) => e.country))].sort()
 
   return (
     <div>
       {/* Controls */}
       <div className="flex flex-col sm:flex-row gap-4 mb-8">
-        {/* Category selector */}
-        <div className="flex-1">
-          <label className="block text-xs font-medium tracking-widest text-[var(--muted)] uppercase mb-2">
-            Category
-          </label>
-          <select
-            value={category}
-            onChange={(e) => {
-              setCategory(e.target.value)
-              setCountryFilter('')
-              setSearch('')
-            }}
-            className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-white focus:border-[var(--accent)] focus:outline-none transition-colors"
-          >
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </div>
-
         {/* Country filter */}
         <div className="flex-1">
           <label className="block text-xs font-medium tracking-widest text-[var(--muted)] uppercase mb-2">
@@ -91,7 +66,7 @@ export default function LeaderboardsClient({ championshipId, categories }: Props
           <select
             value={countryFilter}
             onChange={(e) => setCountryFilter(e.target.value)}
-            className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-white focus:border-[var(--accent)] focus:outline-none transition-colors"
+            className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--foreground)] focus:border-[var(--accent)] focus:outline-none transition-colors"
           >
             <option value="">All Countries</option>
             {countries.map((c) => (
@@ -112,7 +87,7 @@ export default function LeaderboardsClient({ championshipId, categories }: Props
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by name..."
-            className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-white placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors"
+            className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--foreground)] placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors"
           />
         </div>
       </div>
@@ -172,11 +147,11 @@ export default function LeaderboardsClient({ championshipId, categories }: Props
                           className={[
                             'inline-flex h-7 w-7 items-center justify-center rounded text-xs font-black',
                             entry.position === 1
-                              ? 'bg-yellow-500/20 text-yellow-400'
+                              ? 'bg-yellow-500/20 text-yellow-600'
                               : entry.position === 2
-                              ? 'bg-slate-400/20 text-slate-300'
+                              ? 'bg-slate-400/20 text-slate-500'
                               : entry.position === 3
-                              ? 'bg-orange-700/20 text-orange-400'
+                              ? 'bg-orange-700/20 text-orange-700'
                               : 'text-[var(--muted)]',
                           ].join(' ')}
                         >
@@ -184,7 +159,7 @@ export default function LeaderboardsClient({ championshipId, categories }: Props
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={isTop3 ? 'font-semibold text-white' : 'text-white'}>
+                        <span className={isTop3 ? 'font-semibold text-[var(--foreground)]' : 'text-[var(--foreground)]'}>
                           {entry.full_name}
                         </span>
                       </td>

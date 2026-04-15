@@ -125,7 +125,7 @@ export default function RegisterForm() {
   }
 
   const inputClass =
-    'w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-white placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors'
+    'w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-[var(--foreground)] placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors'
   const labelClass =
     'block text-xs font-medium tracking-wide text-[var(--muted)] uppercase mb-2'
 
@@ -240,7 +240,7 @@ export default function RegisterForm() {
             />
             <p className="mt-1.5 text-xs text-[var(--muted)]">
               Find your Steam ID at{' '}
-              <span className="text-white font-mono">steamcommunity.com/profiles/&lt;ID&gt;</span>
+              <span className="text-[var(--foreground)] font-mono">steamcommunity.com/profiles/&lt;ID&gt;</span>
             </p>
           </div>
         </div>
@@ -259,9 +259,9 @@ export default function RegisterForm() {
               onChange={(e) => update('consentProfiling', e.target.checked)}
               className="mt-0.5 h-4 w-4 shrink-0 rounded border-[var(--border)] bg-[var(--background)] accent-[var(--accent)]"
             />
-            <span className="text-sm text-[var(--muted)] group-hover:text-white transition-colors leading-relaxed">
+            <span className="text-sm text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors leading-relaxed">
               I consent to the processing of my personal data for{' '}
-              <strong className="text-white">profiling purposes</strong>.
+              <strong className="text-[var(--foreground)]">profiling purposes</strong>.
             </span>
           </label>
 
@@ -272,9 +272,9 @@ export default function RegisterForm() {
               onChange={(e) => update('consentMarketing', e.target.checked)}
               className="mt-0.5 h-4 w-4 shrink-0 rounded border-[var(--border)] bg-[var(--background)] accent-[var(--accent)]"
             />
-            <span className="text-sm text-[var(--muted)] group-hover:text-white transition-colors leading-relaxed">
+            <span className="text-sm text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors leading-relaxed">
               I consent to the processing of my personal data for{' '}
-              <strong className="text-white">marketing purposes</strong>.
+              <strong className="text-[var(--foreground)]">marketing purposes</strong>.
             </span>
           </label>
 
@@ -286,8 +286,8 @@ export default function RegisterForm() {
               required
               className="mt-0.5 h-4 w-4 shrink-0 rounded border-[var(--border)] bg-[var(--background)] accent-[var(--accent)]"
             />
-            <span className="text-sm text-[var(--muted)] group-hover:text-white transition-colors leading-relaxed">
-              <strong className="text-white">Accept Regulations *</strong> — I
+            <span className="text-sm text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors leading-relaxed">
+              <strong className="text-[var(--foreground)]">Accept Regulations *</strong> — I
               declare that I have read and accepted the{' '}
               <a
                 href="/regulations"
@@ -303,7 +303,7 @@ export default function RegisterForm() {
       </div>
 
       {error && (
-        <div className="rounded border border-red-800/50 bg-red-900/20 px-4 py-3 text-sm text-red-400">
+        <div className="rounded border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
         </div>
       )}

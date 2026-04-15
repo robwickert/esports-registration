@@ -16,29 +16,21 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--surface)]/95 backdrop-blur">
+    <header className="sticky top-0 z-50 bg-[#003063] shadow-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="flex h-8 w-8 items-center justify-center rounded bg-[var(--accent)]">
-            <svg
-              className="h-5 w-5 text-white"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-          </div>
+        <Link href="/" className="flex items-center gap-4">
+          <img
+            src="/fia-logo.svg"
+            alt="FIA"
+            className="h-10 w-auto brightness-0 invert"
+          />
           <div className="flex flex-col leading-none">
-            <span className="text-xs font-medium tracking-widest text-[var(--muted)] uppercase">
+            <span className="text-xs font-medium tracking-widest text-white/60 uppercase">
               Esports
             </span>
             <span className="text-sm font-bold tracking-wider text-white uppercase">
-              FIA Motorsport Games
+              Motorsport Games
             </span>
           </div>
         </Link>
@@ -55,8 +47,8 @@ export default function Header() {
                 className={[
                   'px-4 py-2 text-sm font-medium tracking-wide rounded transition-colors',
                   isActive
-                    ? 'text-white bg-[var(--surface-2)]'
-                    : 'text-[var(--muted)] hover:text-white hover:bg-[var(--surface-2)]',
+                    ? 'text-white bg-white/20'
+                    : 'text-white/70 hover:text-white hover:bg-white/10',
                 ].join(' ')}
               >
                 {label}
@@ -69,13 +61,13 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/login"
-            className="px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-white transition-colors"
+            className="px-4 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors"
           >
             Sign in
           </Link>
           <Link
             href="/registrations"
-            className="px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] hover:bg-[var(--accent-hover)] rounded transition-colors"
+            className="px-4 py-2 text-sm font-medium text-[#003063] bg-white hover:bg-white/90 rounded transition-colors"
           >
             My Registration
           </Link>
@@ -83,7 +75,7 @@ export default function Header() {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden p-2 text-[var(--muted)] hover:text-white transition-colors"
+          className="md:hidden p-2 text-white/70 hover:text-white transition-colors"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -101,29 +93,29 @@ export default function Header() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-[var(--border)] bg-[var(--surface)] px-6 py-4 flex flex-col gap-2">
+        <div className="md:hidden border-t border-white/20 bg-[#002050] px-6 py-4 flex flex-col gap-2">
           {NAV_LINKS.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               onClick={() => setMenuOpen(false)}
-              className="py-2 text-sm font-medium text-[var(--muted)] hover:text-white transition-colors"
+              className="py-2 text-sm font-medium text-white/70 hover:text-white transition-colors"
             >
               {label}
             </Link>
           ))}
-          <div className="mt-2 pt-2 border-t border-[var(--border)] flex flex-col gap-2">
+          <div className="mt-2 pt-2 border-t border-white/20 flex flex-col gap-2">
             <Link
               href="/login"
               onClick={() => setMenuOpen(false)}
-              className="py-2 text-sm font-medium text-[var(--muted)] hover:text-white transition-colors"
+              className="py-2 text-sm font-medium text-white/70 hover:text-white transition-colors"
             >
               Sign in
             </Link>
             <Link
               href="/registrations"
               onClick={() => setMenuOpen(false)}
-              className="py-2 text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors"
+              className="py-2 text-sm font-medium text-white hover:text-white/80 transition-colors"
             >
               My Registration
             </Link>

@@ -50,7 +50,6 @@ create table if not exists registrations (
 create table if not exists leaderboard_entries (
   id              uuid default gen_random_uuid() primary key,
   championship_id uuid references championships(id) on delete cascade not null,
-  category        text not null,        -- e.g. 'F4', 'GT'
   position        integer not null,
   full_name       text not null,
   country         text not null,

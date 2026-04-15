@@ -15,13 +15,13 @@ export default function Footer() {
           </div>
 
           <div className="flex items-center gap-6 text-xs text-[var(--muted)]">
-            <a href="/regulations" className="hover:text-white transition-colors">
+            <a href="/regulations" className="hover:text-[var(--foreground)] transition-colors">
               Regulations
             </a>
-            <a href="/leaderboards" className="hover:text-white transition-colors">
+            <a href="/leaderboards" className="hover:text-[var(--foreground)] transition-colors">
               Leaderboards
             </a>
-            <a href="/register" className="hover:text-white transition-colors">
+            <a href="/register" className="hover:text-[var(--foreground)] transition-colors">
               Register
             </a>
           </div>

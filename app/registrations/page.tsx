@@ -52,14 +52,14 @@ export default async function RegistrationsPage({
           <p className="text-xs font-medium tracking-widest text-[var(--accent)] uppercase mb-2">
             My Account
           </p>
-          <h1 className="text-3xl font-black text-white">My Registration</h1>
+          <h1 className="text-3xl font-black text-[var(--foreground)]">My Registration</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">{user.email}</p>
         </div>
         <div className="flex items-center gap-3">
           {profile?.is_admin && (
             <Link
               href="/admin"
-              className="rounded border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-white hover:border-white transition-colors"
+              className="rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
             >
               Admin Panel
             </Link>
@@ -67,7 +67,7 @@ export default async function RegistrationsPage({
           <form action={signOut}>
             <button
               type="submit"
-              className="rounded border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-white hover:border-white transition-colors"
+              className="rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
             >
               Sign Out
             </button>
@@ -77,13 +77,22 @@ export default async function RegistrationsPage({
 
       {/* Success banners */}
       {registered && (
-        <div className="mb-6 rounded border border-green-800/50 bg-green-900/20 px-5 py-4 text-sm text-green-400">
-          Registration submitted successfully! Welcome to the 2026 FIA Motorsport Games Esports Championship.
+        <div className="mb-6 rounded-lg border border-[var(--accent)]/20 bg-[var(--accent)]/5 px-5 py-4 flex items-start gap-3">
+          <svg className="h-5 w-5 shrink-0 text-[var(--accent)] mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div>
+            <p className="text-sm font-semibold text-[var(--foreground)]">Registration confirmed</p>
+            <p className="text-sm text-[var(--muted)] mt-0.5">Welcome to the 2026 FIA Motorsport Games Esports Championship. You&apos;re all set.</p>
+          </div>
         </div>
       )}
       {updated && (
-        <div className="mb-6 rounded border border-green-800/50 bg-green-900/20 px-5 py-4 text-sm text-green-400">
-          Your registration has been updated.
+        <div className="mb-6 rounded-lg border border-[var(--accent)]/20 bg-[var(--accent)]/5 px-5 py-4 flex items-start gap-3">
+          <svg className="h-5 w-5 shrink-0 text-[var(--accent)] mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p className="text-sm text-[var(--foreground)]">Your registration has been updated.</p>
         </div>
       )}
 
@@ -91,7 +100,7 @@ export default async function RegistrationsPage({
       {!registration ? (
         <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-10 text-center">
           <div className="text-4xl mb-4">🏁</div>
-          <h2 className="text-xl font-bold text-white mb-2">No Registration Found</h2>
+          <h2 className="text-xl font-bold text-[var(--foreground)] mb-2">No Registration Found</h2>
           <p className="text-[var(--muted)] mb-6 text-sm">
             You don&apos;t have a registration for the{' '}
             {championship ? `${championship.year} ${championship.name}` : 'current championship'} yet.
@@ -108,12 +117,12 @@ export default async function RegistrationsPage({
           {/* Card header */}
           <div className="border-b border-[var(--border)] bg-[var(--surface-2)] px-8 py-5 flex items-center justify-between">
             <div>
-              <h2 className="font-bold text-white">{championship?.name}</h2>
+              <h2 className="font-bold text-[var(--foreground)]">{championship?.name}</h2>
               <p className="text-xs text-[var(--muted)] mt-0.5">Season {championship?.year}</p>
             </div>
             <Link
               href="/registrations/edit"
-              className="rounded border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-white hover:border-white transition-colors"
+              className="rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
             >
               Edit
             </Link>
@@ -144,7 +153,7 @@ export default async function RegistrationsPage({
                 <dt className="text-xs font-medium tracking-wide text-[var(--muted)] uppercase self-center">
                   {label}
                 </dt>
-                <dd className="text-sm text-white">{value}</dd>
+                <dd className="text-sm text-[var(--foreground)]">{value}</dd>
               </div>
             ))}
           </dl>

@@ -51,7 +51,7 @@ export default function EditRegistrationForm({ registration }: { registration: R
   }
 
   const inputClass =
-    'w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-white placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors'
+    'w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-[var(--foreground)] placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors'
   const labelClass =
     'block text-xs font-medium tracking-wide text-[var(--muted)] uppercase mb-2'
 
@@ -128,9 +128,9 @@ export default function EditRegistrationForm({ registration }: { registration: R
             onChange={(e) => setConsentProfiling(e.target.checked)}
             className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--accent)]"
           />
-          <span className="text-sm text-[var(--muted)] group-hover:text-white transition-colors leading-relaxed">
+          <span className="text-sm text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors leading-relaxed">
             I consent to the processing of my personal data for{' '}
-            <strong className="text-white">profiling purposes</strong>.
+            <strong className="text-[var(--foreground)]">profiling purposes</strong>.
           </span>
         </label>
 
@@ -141,9 +141,9 @@ export default function EditRegistrationForm({ registration }: { registration: R
             onChange={(e) => setConsentMarketing(e.target.checked)}
             className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--accent)]"
           />
-          <span className="text-sm text-[var(--muted)] group-hover:text-white transition-colors leading-relaxed">
+          <span className="text-sm text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors leading-relaxed">
             I consent to the processing of my personal data for{' '}
-            <strong className="text-white">marketing purposes</strong>.
+            <strong className="text-[var(--foreground)]">marketing purposes</strong>.
           </span>
         </label>
 
@@ -155,8 +155,8 @@ export default function EditRegistrationForm({ registration }: { registration: R
             required
             className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--accent)]"
           />
-          <span className="text-sm text-[var(--muted)] group-hover:text-white transition-colors leading-relaxed">
-            <strong className="text-white">Accept Regulations *</strong> — I declare that I have
+          <span className="text-sm text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors leading-relaxed">
+            <strong className="text-[var(--foreground)]">Accept Regulations *</strong> — I declare that I have
             read and accepted the{' '}
             <a href="/regulations" target="_blank" className="text-[var(--accent)] hover:underline">
               Rules for participation
@@ -167,7 +167,7 @@ export default function EditRegistrationForm({ registration }: { registration: R
       </div>
 
       {error && (
-        <div className="rounded border border-red-800/50 bg-red-900/20 px-4 py-3 text-sm text-red-400">
+        <div className="rounded border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
         </div>
       )}
@@ -175,7 +175,7 @@ export default function EditRegistrationForm({ registration }: { registration: R
       <div className="flex gap-3 pt-2">
         <a
           href="/registrations"
-          className="flex-1 rounded border border-[var(--border)] px-6 py-3 text-sm font-bold text-center text-[var(--muted)] hover:text-white hover:border-white transition-colors"
+          className="flex-1 rounded border border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-sm font-bold text-center text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
         >
           Cancel
         </a>

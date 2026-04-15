@@ -17,7 +17,7 @@ export default async function RegisterPage() {
         <p className="text-xs font-medium tracking-widest text-[var(--accent)] uppercase mb-3">
           2026 Season
         </p>
-        <h1 className="text-4xl font-black text-white">Register to Compete</h1>
+        <h1 className="text-4xl font-black text-[var(--foreground)]">Register to Compete</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">
           Already registered?{' '}
           <a href="/login" className="text-[var(--accent)] hover:underline">
