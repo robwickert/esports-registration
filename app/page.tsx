@@ -72,12 +72,16 @@ export default async function HomePage() {
       <section className="border-y border-[var(--border)] bg-[var(--surface)]">
         <div className="mx-auto max-w-7xl px-6 py-8 grid grid-cols-3 gap-8">
           {[
-            { value: String(year), label: 'Season' },
-            { value: 'Global', label: 'Competition' },
-            { value: 'Assetto Corsa Rally', label: 'Platform' },
-          ].map(({ value, label }) => (
+            { value: String(year), label: 'Season', href: undefined },
+            { value: 'Global', label: 'Competition', href: undefined },
+            { value: 'Assetto Corsa Rally', label: 'Platform', href: 'https://store.steampowered.com/app/3917090/Assetto_Corsa_Rally/' },
+          ].map(({ value, label, href }) => (
             <div key={label} className="text-center">
-              <div className="text-3xl font-black text-[var(--accent)]">{value}</div>
+              <div className="text-3xl font-black text-[var(--accent)]">
+                {href ? (
+                  <a href={href} target="_blank" rel="noopener noreferrer" className="hover:underline">{value}</a>
+                ) : value}
+              </div>
               <div className="mt-1 text-xs font-medium tracking-widest text-[var(--muted)] uppercase">
                 {label}
               </div>
@@ -108,7 +112,7 @@ export default async function HomePage() {
               {
                 step: '02',
                 title: 'Qualify',
-                desc: 'Set your best lap times in the qualifying sessions using Assetto Corsa Rally.',
+                desc: <>Set your best lap times in the qualifying sessions using <a href="https://store.steampowered.com/app/3917090/Assetto_Corsa_Rally/" target="_blank" rel="noopener noreferrer" className="text-[var(--accent)] hover:underline">Assetto Corsa Rally</a>.</>,
               },
               {
                 step: '03',

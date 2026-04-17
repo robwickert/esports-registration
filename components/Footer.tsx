@@ -17,6 +17,9 @@ export default function Footer() {
           </div>
 
           <div className="flex items-center gap-6 text-xs text-[var(--muted)]">
+            <a href="/about" className="hover:text-[var(--foreground)] transition-colors">
+              About
+            </a>
             <a href="/regulations" className="hover:text-[var(--foreground)] transition-colors">
               Regulations
             </a>

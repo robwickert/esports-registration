@@ -93,7 +93,7 @@ export default async function RegulationsPage() {
           <div className="space-y-3 text-sm">
             <p>
               <strong className="text-[var(--foreground)]">3.1</strong> The official simulation platform is
-              Assetto Corsa Rally (PC). The game must be purchased legitimately through the Steam
+              <a href="https://store.steampowered.com/app/3917090/Assetto_Corsa_Rally/" target="_blank" rel="noopener noreferrer" className="text-[var(--accent)] hover:underline">Assetto Corsa Rally</a> (PC). The game must be purchased legitimately through the Steam
               platform.
             </p>
             <p>
