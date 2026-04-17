@@ -5,12 +5,14 @@ export default function Footer() {
     <footer className="border-t border-[var(--border)] bg-[var(--surface)] mt-auto">
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex flex-col items-center md:items-start gap-1">
-            <span className="text-xs font-bold tracking-widest text-[var(--muted)] uppercase">
-              FIA Motorsport Games Esports
-            </span>
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <img
+              src="/esports-logo-white-on-blue.png"
+              alt="FIA Esports Global Rally Tour"
+              className="h-12 w-auto"
+            />
             <p className="text-xs text-[var(--muted)]">
-              Official online racing championship on Assetto Corsa Rally
+              A part of the official FIA Esports program
             </p>
           </div>
 
@@ -28,7 +30,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 border-t border-[var(--border)] pt-6 text-center text-xs text-[var(--muted)]">
-          © {year} FIA Motorsport Games. All rights reserved.
+          © {year} FIA Esports. All rights reserved.
         </div>
       </div>
     </footer>

@@ -17,22 +17,14 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-[#003063] shadow-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-4">
+        <Link href="/" className="flex items-center">
           <img
-            src="/fia-logo.svg"
-            alt="FIA"
-            className="h-10 w-auto brightness-0 invert"
+            src="/esports-logo-blue-on-white.png"
+            alt="FIA Esports Global Rally Tour"
+            className="h-12 w-auto"
           />
-          <div className="flex flex-col leading-none">
-            <span className="text-xs font-medium tracking-widest text-white/60 uppercase">
-              Esports
-            </span>
-            <span className="text-sm font-bold tracking-wider text-white uppercase">
-              Motorsport Games
-            </span>
-          </div>
         </Link>
 
         {/* Desktop nav */}

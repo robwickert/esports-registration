@@ -1,6 +1,20 @@
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/server'
 
-export default function HomePage() {
+export const dynamic = 'force-dynamic'
+
+export default async function HomePage() {
+  const supabase = await createClient()
+  const slug = process.env.NEXT_PUBLIC_CHAMPIONSHIP_SLUG ?? 'fia-motorsport-games-2026'
+  const { data: championship } = await supabase
+    .from('championships')
+    .select('name, year')
+    .eq('slug', slug)
+    .single()
+
+  const name = championship?.name ?? 'FIA Esports Global Rally Tour'
+  const year = championship?.year ?? 2026
+
   return (
     <div>
       {/* Hero — unified light background */}
@@ -13,19 +27,24 @@ export default function HomePage() {
           <div className="max-w-3xl">
             <div className="mb-6 inline-flex items-center gap-2 rounded-lg border border-[var(--accent)]/20 bg-[var(--accent)]/5 px-4 py-1.5 text-xs font-medium tracking-widest text-[var(--accent)] uppercase">
               <span className="h-1.5 w-1.5 rounded-lg bg-[var(--accent)] animate-pulse" />
-              Registration Open — 2026 Season
+              Registration Open — {year} Edition
             </div>
 
             <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-none mb-6">
-              <span className="text-[var(--foreground)]">FIA Motorsport</span>
+              <span className="text-[var(--foreground)]">FIA Esports</span>
               <br />
-              <span className="text-[var(--accent)]">Games Esports</span>
+              <span className="text-[var(--accent)]">Global Rally Tour</span>
             </h1>
 
             <p className="text-lg md:text-xl text-[var(--muted)] leading-relaxed max-w-2xl mb-10">
-              Compete in the official FIA Motorsport Games online championship.
-              Race on Assetto Corsa Rally and prove your pace against the best
-              sim racers in the world.
+              Compete in the official {year} {name} from
+              <br />
+              <span className="text-[var(--foreground)] font-semibold">May 12, 2026 at 00:00 GMT</span>{' '}
+              to{' '}
+              <span className="text-[var(--foreground)] font-semibold">May 25, 2026 at 23:59 GMT</span>.
+              <br />
+              Set the best time possible in this challenge to qualify for your
+              respective onsite Regional Shootout.
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -53,7 +72,7 @@ export default function HomePage() {
       <section className="border-y border-[var(--border)] bg-[var(--surface)]">
         <div className="mx-auto max-w-7xl px-6 py-8 grid grid-cols-3 gap-8">
           {[
-            { value: '2026', label: 'Season' },
+            { value: String(year), label: 'Season' },
             { value: 'Global', label: 'Competition' },
             { value: 'Assetto Corsa Rally', label: 'Platform' },
           ].map(({ value, label }) => (
@@ -94,7 +113,7 @@ export default function HomePage() {
               {
                 step: '03',
                 title: 'Compete',
-                desc: 'Join the official race events and battle for the FIA Motorsport Games title.',
+                desc: 'Be one of the fastest eight* in your Region to be invited to your respective onsite Regional Shootout.',
               },
             ].map(({ step, title, desc }) => (
               <div key={step} className="flex gap-5">
@@ -108,6 +127,7 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+          <p className="mt-8 text-xs text-[var(--muted)]">* fastest sixteen for Europe</p>
         </div>
       </section>
 
@@ -117,8 +137,7 @@ export default function HomePage() {
           Ready to Race?
         </h2>
         <p className="text-[var(--muted)] mb-10 max-w-xl mx-auto">
-          Register now to secure your place in the 2026 FIA Motorsport Games
-          Esports championship.
+          Register now to secure your place in the {year} {name}.
         </p>
         <Link
           href="/register"

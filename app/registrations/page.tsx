@@ -83,7 +83,7 @@ export default async function RegistrationsPage({
           </svg>
           <div>
             <p className="text-sm font-semibold text-[var(--foreground)]">Registration confirmed</p>
-            <p className="text-sm text-[var(--muted)] mt-0.5">Welcome to the 2026 FIA Motorsport Games Esports Championship. You&apos;re all set.</p>
+            <p className="text-sm text-[var(--muted)] mt-0.5">Welcome to the {championship?.year ?? 2026} {championship?.name ?? 'FIA Esports Global Rally Tour'}. You&apos;re all set.</p>
           </div>
         </div>
       )}
@@ -133,9 +133,17 @@ export default async function RegistrationsPage({
             {[
               { label: 'Full Name', value: `${registration.first_name} ${registration.last_name}` },
               { label: 'Email', value: registration.email },
-              { label: 'Country', value: registration.country },
+              { label: 'Nationality', value: registration.nationality },
               { label: 'Phone', value: registration.phone },
               { label: 'Steam ID', value: registration.steam_id },
+              { label: 'Legal Age', value: registration.is_of_legal_age ? 'Yes' : 'No' },
+              ...(registration.is_of_legal_age ? [] : [
+                { label: 'Named Competitor — First Name', value: registration.named_competitor_first_name ?? '' },
+                { label: 'Named Competitor — Last Name', value: registration.named_competitor_last_name ?? '' },
+                { label: 'Named Competitor — Nationality', value: registration.named_competitor_nationality ?? '' },
+                { label: 'Named Competitor — Email', value: registration.named_competitor_email ?? '' },
+                { label: 'Named Competitor — Phone', value: registration.named_competitor_phone ?? '' },
+              ]),
               {
                 label: 'Consent — Profiling',
                 value: registration.consent_profiling ? 'Yes' : 'No',

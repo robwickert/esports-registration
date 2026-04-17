@@ -27,7 +27,7 @@ export default async function LeaderboardsPage() {
       {/* Header */}
       <div className="mb-10">
         <p className="text-xs font-medium tracking-widest text-[var(--accent)] uppercase mb-3">
-          {championship.year} Season
+          {championship.year} Edition
         </p>
         <h1 className="text-4xl md:text-5xl font-black text-[var(--foreground)]">
           Leaderboards

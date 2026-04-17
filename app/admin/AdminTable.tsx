@@ -7,9 +7,15 @@ type Registration = {
   email: string
   first_name: string
   last_name: string
-  country: string
+  nationality: string
   phone: string
   steam_id: string
+  is_of_legal_age: boolean
+  named_competitor_first_name: string | null
+  named_competitor_last_name: string | null
+  named_competitor_nationality: string | null
+  named_competitor_email: string | null
+  named_competitor_phone: string | null
   consent_profiling: boolean
   consent_marketing: boolean
   accepted_regulation: boolean
@@ -18,17 +24,17 @@ type Registration = {
 
 type Props = {
   registrations: Registration[]
-  countries: string[]
-  currentCountry: string
+  nationalities: string[]
+  currentNationality: string
   championshipId: string
 }
 
-export default function AdminTable({ registrations, countries, currentCountry }: Props) {
+export default function AdminTable({ registrations, nationalities, currentNationality }: Props) {
   const router = useRouter()
 
-  function handleCountryChange(country: string) {
+  function handleNationalityChange(nationality: string) {
     const params = new URLSearchParams()
-    if (country) params.set('country', country)
+    if (nationality) params.set('nationality', nationality)
     router.push(`/admin?${params.toString()}`)
   }
 
@@ -37,9 +43,15 @@ export default function AdminTable({ registrations, countries, currentCountry }:
       'First Name',
       'Last Name',
       'Email',
-      'Country',
+      'Nationality',
       'Phone',
       'Steam ID',
+      'Legal Age',
+      'Named Competitor First Name',
+      'Named Competitor Last Name',
+      'Named Competitor Nationality',
+      'Named Competitor Email',
+      'Named Competitor Phone',
       'Consent Profiling',
       'Consent Marketing',
       'Accepted Regulation',
@@ -50,9 +62,15 @@ export default function AdminTable({ registrations, countries, currentCountry }:
       r.first_name,
       r.last_name,
       r.email,
-      r.country,
+      r.nationality,
       r.phone,
       r.steam_id,
+      r.is_of_legal_age ? 'Yes' : 'No',
+      r.named_competitor_first_name ?? '',
+      r.named_competitor_last_name ?? '',
+      r.named_competitor_nationality ?? '',
+      r.named_competitor_email ?? '',
+      r.named_competitor_phone ?? '',
       r.consent_profiling ? 'Yes' : 'No',
       r.consent_marketing ? 'Yes' : 'No',
       r.accepted_regulation ? 'Yes' : 'No',
@@ -83,17 +101,17 @@ export default function AdminTable({ registrations, countries, currentCountry }:
       <div className="flex flex-wrap items-end gap-4 mb-6">
         <div className="flex-1 min-w-48">
           <label className="block text-xs font-medium tracking-widest text-[var(--muted)] uppercase mb-2">
-            Filter by Country
+            Filter by Nationality
           </label>
           <select
-            value={currentCountry}
-            onChange={(e) => handleCountryChange(e.target.value)}
+            value={currentNationality}
+            onChange={(e) => handleNationalityChange(e.target.value)}
             className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--foreground)] focus:border-[var(--accent)] focus:outline-none transition-colors"
           >
-            <option value="">All Countries</option>
-            {countries.map((c) => (
-              <option key={c} value={c}>
-                {c}
+            <option value="">All Nationalities</option>
+            {nationalities.map((n) => (
+              <option key={n} value={n}>
+                {n}
               </option>
             ))}
           </select>
@@ -124,9 +142,10 @@ export default function AdminTable({ registrations, countries, currentCountry }:
                 {[
                   'Name',
                   'Email',
-                  'Country',
+                  'Nationality',
                   'Phone',
                   'Steam ID',
+                  'Legal Age',
                   'Profiling',
                   'Marketing',
                   'Regulations',
@@ -144,7 +163,7 @@ export default function AdminTable({ registrations, countries, currentCountry }:
             <tbody>
               {registrations.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="px-4 py-12 text-center text-[var(--muted)]">
+                  <td colSpan={10} className="px-4 py-12 text-center text-[var(--muted)]">
                     No registrations found.
                   </td>
                 </tr>
@@ -161,9 +180,12 @@ export default function AdminTable({ registrations, countries, currentCountry }:
                       {r.first_name} {r.last_name}
                     </td>
                     <td className="px-4 py-3 text-[var(--muted)]">{r.email}</td>
-                    <td className="px-4 py-3 text-[var(--muted)]">{r.country}</td>
+                    <td className="px-4 py-3 text-[var(--muted)]">{r.nationality}</td>
                     <td className="px-4 py-3 text-[var(--muted)]">{r.phone}</td>
                     <td className="px-4 py-3 font-mono text-xs text-[var(--muted)]">{r.steam_id}</td>
+                    <td className="px-4 py-3">
+                      <Badge value={r.is_of_legal_age} />
+                    </td>
                     <td className="px-4 py-3">
                       <Badge value={r.consent_profiling} />
                     </td>

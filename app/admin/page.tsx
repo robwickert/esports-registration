@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ country?: string }>
+  searchParams: Promise<{ nationality?: string }>
 }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -39,7 +39,7 @@ export default async function AdminPage({
     )
   }
 
-  const { country: countryFilter } = await searchParams
+  const { nationality: nationalityFilter } = await searchParams
 
   let query = supabase
     .from('registrations')
@@ -47,19 +47,19 @@ export default async function AdminPage({
     .eq('championship_id', championship.id)
     .order('created_at', { ascending: false })
 
-  if (countryFilter) {
-    query = query.eq('country', countryFilter)
+  if (nationalityFilter) {
+    query = query.eq('nationality', nationalityFilter)
   }
 
   const { data: registrations } = await query
 
-  // Available countries for filter
-  const { data: allCountries } = await supabase
+  // Available nationalities for filter
+  const { data: allNationalities } = await supabase
     .from('registrations')
-    .select('country')
+    .select('nationality')
     .eq('championship_id', championship.id)
 
-  const countries = [...new Set((allCountries ?? []).map((r) => r.country))].sort()
+  const nationalities = [...new Set((allNationalities ?? []).map((r) => r.nationality))].sort()
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-16">
@@ -83,8 +83,8 @@ export default async function AdminPage({
 
       <AdminTable
         registrations={registrations ?? []}
-        countries={countries}
-        currentCountry={countryFilter ?? ''}
+        nationalities={nationalities}
+        currentNationality={nationalityFilter ?? ''}
         championshipId={championship.id}
       />
     </div>

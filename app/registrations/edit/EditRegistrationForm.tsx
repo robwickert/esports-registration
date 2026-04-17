@@ -8,9 +8,15 @@ type Registration = {
   id: string
   first_name: string
   last_name: string
-  country: string
+  nationality: string
   phone: string
   steam_id: string
+  is_of_legal_age: boolean
+  named_competitor_first_name: string | null
+  named_competitor_last_name: string | null
+  named_competitor_nationality: string | null
+  named_competitor_email: string | null
+  named_competitor_phone: string | null
   consent_profiling: boolean
   consent_marketing: boolean
   accepted_regulation: boolean
@@ -19,9 +25,15 @@ type Registration = {
 export default function EditRegistrationForm({ registration }: { registration: Registration }) {
   const [firstName, setFirstName] = useState(registration.first_name)
   const [lastName, setLastName] = useState(registration.last_name)
-  const [country, setCountry] = useState(registration.country)
+  const [nationality, setNationality] = useState(registration.nationality)
   const [phone, setPhone] = useState(registration.phone)
   const [steamId, setSteamId] = useState(registration.steam_id)
+  const [isOfLegalAge, setIsOfLegalAge] = useState(registration.is_of_legal_age)
+  const [namedCompetitorFirstName, setNamedCompetitorFirstName] = useState(registration.named_competitor_first_name ?? '')
+  const [namedCompetitorLastName, setNamedCompetitorLastName] = useState(registration.named_competitor_last_name ?? '')
+  const [namedCompetitorNationality, setNamedCompetitorNationality] = useState(registration.named_competitor_nationality ?? '')
+  const [namedCompetitorEmail, setNamedCompetitorEmail] = useState(registration.named_competitor_email ?? '')
+  const [namedCompetitorPhone, setNamedCompetitorPhone] = useState(registration.named_competitor_phone ?? '')
   const [consentProfiling, setConsentProfiling] = useState(registration.consent_profiling)
   const [consentMarketing, setConsentMarketing] = useState(registration.consent_marketing)
   const [acceptedRegulation, setAcceptedRegulation] = useState(registration.accepted_regulation)
@@ -36,9 +48,15 @@ export default function EditRegistrationForm({ registration }: { registration: R
     const result = await updateRegistration(registration.id, {
       firstName,
       lastName,
-      country,
+      nationality,
       phone,
       steamId,
+      isOfLegalAge,
+      namedCompetitorFirstName,
+      namedCompetitorLastName,
+      namedCompetitorNationality,
+      namedCompetitorEmail,
+      namedCompetitorPhone,
       consentProfiling,
       consentMarketing,
       acceptedRegulation,
@@ -81,14 +99,14 @@ export default function EditRegistrationForm({ registration }: { registration: R
       </div>
 
       <div>
-        <label className={labelClass}>Country *</label>
+        <label className={labelClass}>Nationality (according to passport) *</label>
         <select
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
+          value={nationality}
+          onChange={(e) => setNationality(e.target.value)}
           required
           className={inputClass}
         >
-          <option value="">Select country</option>
+          <option value="">Select nationality</option>
           {COUNTRIES.map(({ code, name }) => (
             <option key={code} value={code}>
               {name} ({code})
@@ -117,6 +135,92 @@ export default function EditRegistrationForm({ registration }: { registration: R
           required
           className={inputClass}
         />
+      </div>
+
+      <label className="flex items-start gap-3 cursor-pointer group">
+        <input
+          type="checkbox"
+          checked={isOfLegalAge}
+          onChange={(e) => setIsOfLegalAge(e.target.checked)}
+          className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--accent)]"
+        />
+        <span className="text-sm text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors leading-relaxed">
+          I am above the legal age in my country/territory
+        </span>
+      </label>
+
+      {/* Named Competitor — always rendered, hidden via CSS */}
+      <div className={isOfLegalAge ? 'hidden' : ''}>
+        <h3 className="text-sm font-bold text-[var(--muted)] uppercase tracking-widest mb-2 pb-2 border-b border-[var(--border)]">
+          Named Competitor
+        </h3>
+        <p className="text-xs text-[var(--muted)] mb-4 leading-relaxed">
+          In accordance with Art. 12.2.3. of the official sporting regulations, Esports Drivers who are not of the minimum legal age in their country/territory of nationality at the time of the Competition cannot be their own Competitor and must name another person of legal age holding a valid Competitor Licence to act as their Competitor.
+        </p>
+        <div className="space-y-4">
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className={labelClass}>First Name *</label>
+              <input
+                type="text"
+                value={namedCompetitorFirstName}
+                onChange={(e) => setNamedCompetitorFirstName(e.target.value)}
+                required={!isOfLegalAge}
+                className={inputClass}
+                placeholder="First name"
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Last Name *</label>
+              <input
+                type="text"
+                value={namedCompetitorLastName}
+                onChange={(e) => setNamedCompetitorLastName(e.target.value)}
+                required={!isOfLegalAge}
+                className={inputClass}
+                placeholder="Last name"
+              />
+            </div>
+          </div>
+          <div>
+            <label className={labelClass}>Nationality (according to passport) *</label>
+            <select
+              value={namedCompetitorNationality}
+              onChange={(e) => setNamedCompetitorNationality(e.target.value)}
+              required={!isOfLegalAge}
+              className={inputClass}
+            >
+              <option value="">Select nationality</option>
+              {COUNTRIES.map(({ code, name }) => (
+                <option key={code} value={code}>
+                  {name} ({code})
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className={labelClass}>Email *</label>
+            <input
+              type="email"
+              value={namedCompetitorEmail}
+              onChange={(e) => setNamedCompetitorEmail(e.target.value)}
+              required={!isOfLegalAge}
+              className={inputClass}
+              placeholder="competitor@email.com"
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Phone Number *</label>
+            <input
+              type="tel"
+              value={namedCompetitorPhone}
+              onChange={(e) => setNamedCompetitorPhone(e.target.value)}
+              required={!isOfLegalAge}
+              className={inputClass}
+              placeholder="+1 555 000 0000"
+            />
+          </div>
+        </div>
       </div>
 
       {/* Consents */}

@@ -1,4 +1,19 @@
-export default function RegulationsPage() {
+import { createClient } from '@/lib/supabase/server'
+
+export const dynamic = 'force-dynamic'
+
+export default async function RegulationsPage() {
+  const supabase = await createClient()
+  const slug = process.env.NEXT_PUBLIC_CHAMPIONSHIP_SLUG ?? 'fia-motorsport-games-2026'
+  const { data: championship } = await supabase
+    .from('championships')
+    .select('name, year')
+    .eq('slug', slug)
+    .single()
+
+  const name = championship?.name ?? 'FIA Esports Global Rally Tour'
+  const year = championship?.year ?? 2026
+
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
       {/* Header */}
@@ -10,7 +25,7 @@ export default function RegulationsPage() {
           Competition Regulations
         </h1>
         <p className="text-[var(--muted)]">
-          2026 FIA Motorsport Games Esports — Assetto Corsa Rally
+          {year} {name}
         </p>
       </div>
 
@@ -23,8 +38,8 @@ export default function RegulationsPage() {
           </h2>
           <div className="space-y-3 text-sm">
             <p>
-              <strong className="text-[var(--foreground)]">1.1</strong> The 2026 FIA Motorsport Games Esports
-              Championship (hereinafter "the Championship") is organized under the authority of the
+              <strong className="text-[var(--foreground)]">1.1</strong> The {year} {name}
+              (hereinafter "the Championship") is organized under the authority of the
               Fédération Internationale de l'Automobile (FIA) and its affiliated national sporting
               authorities (ASNs).
             </p>

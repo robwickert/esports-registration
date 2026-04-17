@@ -10,9 +10,15 @@ type FormData = {
   password: string
   firstName: string
   lastName: string
-  country: string
+  nationality: string
   phone: string
   steamId: string
+  isOfLegalAge: boolean
+  namedCompetitorFirstName: string
+  namedCompetitorLastName: string
+  namedCompetitorNationality: string
+  namedCompetitorEmail: string
+  namedCompetitorPhone: string
   consentProfiling: boolean
   consentMarketing: boolean
   acceptedRegulation: boolean
@@ -23,9 +29,15 @@ const INITIAL: FormData = {
   password: '',
   firstName: '',
   lastName: '',
-  country: '',
+  nationality: '',
   phone: '',
   steamId: '',
+  isOfLegalAge: true,
+  namedCompetitorFirstName: '',
+  namedCompetitorLastName: '',
+  namedCompetitorNationality: '',
+  namedCompetitorEmail: '',
+  namedCompetitorPhone: '',
   consentProfiling: false,
   consentMarketing: false,
   acceptedRegulation: false,
@@ -106,9 +118,15 @@ export default function RegisterForm() {
       email: form.email,
       first_name: form.firstName,
       last_name: form.lastName,
-      country: form.country,
+      nationality: form.nationality,
       phone: form.phone,
       steam_id: form.steamId,
+      is_of_legal_age: form.isOfLegalAge,
+      named_competitor_first_name: form.isOfLegalAge ? null : form.namedCompetitorFirstName,
+      named_competitor_last_name: form.isOfLegalAge ? null : form.namedCompetitorLastName,
+      named_competitor_nationality: form.isOfLegalAge ? null : form.namedCompetitorNationality,
+      named_competitor_email: form.isOfLegalAge ? null : form.namedCompetitorEmail,
+      named_competitor_phone: form.isOfLegalAge ? null : form.namedCompetitorPhone,
       consent_profiling: form.consentProfiling,
       consent_marketing: form.consentMarketing,
       accepted_regulation: form.acceptedRegulation,
@@ -199,10 +217,10 @@ export default function RegisterForm() {
           </div>
 
           <div>
-            <label className={labelClass}>Country *</label>
+            <label className={labelClass}>Nationality (according to passport) *</label>
             <select
-              value={form.country}
-              onChange={(e) => update('country', e.target.value)}
+              value={form.nationality}
+              onChange={(e) => update('nationality', e.target.value)}
               required
               className={inputClass}
             >
@@ -243,7 +261,93 @@ export default function RegisterForm() {
               <span className="text-[var(--foreground)] font-mono">steamcommunity.com/profiles/&lt;ID&gt;</span>
             </p>
           </div>
+
+          <label className="flex items-start gap-3 cursor-pointer group">
+            <input
+              type="checkbox"
+              checked={form.isOfLegalAge}
+              onChange={(e) => update('isOfLegalAge', e.target.checked)}
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-[var(--border)] bg-[var(--background)] accent-[var(--accent)]"
+            />
+            <span className="text-sm text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors leading-relaxed">
+              I am above the legal age in my country/territory
+            </span>
+          </label>
         </div>
+      </div>
+
+      {/* Named Competitor section */}
+      <div className={form.isOfLegalAge ? 'hidden' : ''}>
+          <h2 className="text-sm font-bold text-[var(--muted)] uppercase tracking-widest mb-2 pb-2 border-b border-[var(--border)]">
+            Named Competitor
+          </h2>
+          <p className="text-xs text-[var(--muted)] mb-4 leading-relaxed">
+            In accordance with Art. 12.2.3. of the official sporting regulations, Esports Drivers who are not of the minimum legal age in their country/territory of nationality at the time of the Competition cannot be their own Competitor and must name another person of legal age holding a valid Competitor Licence to act as their Competitor.
+          </p>
+          <div className="space-y-4">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>First Name *</label>
+                <input
+                  type="text"
+                  value={form.namedCompetitorFirstName}
+                  onChange={(e) => update('namedCompetitorFirstName', e.target.value)}
+                  required={!form.isOfLegalAge}
+                  className={inputClass}
+                  placeholder="First name"
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Last Name *</label>
+                <input
+                  type="text"
+                  value={form.namedCompetitorLastName}
+                  onChange={(e) => update('namedCompetitorLastName', e.target.value)}
+                  required={!form.isOfLegalAge}
+                  className={inputClass}
+                  placeholder="Last name"
+                />
+              </div>
+            </div>
+            <div>
+              <label className={labelClass}>Nationality (according to passport) *</label>
+              <select
+                value={form.namedCompetitorNationality}
+                onChange={(e) => update('namedCompetitorNationality', e.target.value)}
+                required={!form.isOfLegalAge}
+                className={inputClass}
+              >
+                <option value="">Select nationality</option>
+                {COUNTRIES.map(({ code, name }) => (
+                  <option key={code} value={code}>
+                    {name} ({code})
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>Email *</label>
+              <input
+                type="email"
+                value={form.namedCompetitorEmail}
+                onChange={(e) => update('namedCompetitorEmail', e.target.value)}
+                required={!form.isOfLegalAge}
+                className={inputClass}
+                placeholder="competitor@email.com"
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Phone Number *</label>
+              <input
+                type="tel"
+                value={form.namedCompetitorPhone}
+                onChange={(e) => update('namedCompetitorPhone', e.target.value)}
+                required={!form.isOfLegalAge}
+                className={inputClass}
+                placeholder="+1 555 000 0000"
+              />
+            </div>
+          </div>
       </div>
 
       {/* Consents section */}

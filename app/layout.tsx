@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'FIA Motorsport Games Esports',
+  title: 'FIA Esports Global Rally Tour',
   description:
-    'Official registration and leaderboard platform for FIA Motorsport Games Esports — Assetto Corsa Rally',
+    'Official registration and leaderboard platform for the FIA Esports Global Rally Tour — Assetto Corsa Rally',
 }
 
 export default function RootLayout({
