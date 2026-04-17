@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 type Entry = {
@@ -14,13 +14,16 @@ type Entry = {
 
 type Props = {
   championshipId: string
+  initialEntries: Entry[]
+  allCountries: string[]
 }
 
-export default function LeaderboardsClient({ championshipId }: Props) {
+export default function LeaderboardsClient({ championshipId, initialEntries, allCountries }: Props) {
   const [search, setSearch] = useState('')
   const [countryFilter, setCountryFilter] = useState('')
-  const [entries, setEntries] = useState<Entry[]>([])
-  const [loading, setLoading] = useState(true)
+  const [entries, setEntries] = useState<Entry[]>(initialEntries)
+  const [loading, setLoading] = useState(false)
+  const isFirstRender = useRef(true)
 
   const fetchEntries = useCallback(async () => {
     setLoading(true)
@@ -43,6 +46,10 @@ export default function LeaderboardsClient({ championshipId }: Props) {
   }, [championshipId, countryFilter])
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
     fetchEntries()
   }, [fetchEntries])
 
@@ -51,8 +58,6 @@ export default function LeaderboardsClient({ championshipId }: Props) {
         e.full_name.toLowerCase().includes(search.toLowerCase())
       )
     : entries
-
-  const countries = [...new Set(entries.map((e) => e.country))].sort()
 
   return (
     <div>
@@ -69,7 +74,7 @@ export default function LeaderboardsClient({ championshipId }: Props) {
             className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--foreground)] focus:border-[var(--accent)] focus:outline-none transition-colors"
           >
             <option value="">All Countries</option>
-            {countries.map((c) => (
+            {allCountries.map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>

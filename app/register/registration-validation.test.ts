@@ -24,7 +24,7 @@ function buildRegistrationPayload(form: {
   email: string
   firstName: string
   lastName: string
-  country: string
+  nationality: string
   phone: string
   steamId: string
   consentProfiling: boolean
@@ -35,7 +35,7 @@ function buildRegistrationPayload(form: {
     email: form.email.trim().toLowerCase(),
     first_name: form.firstName.trim(),
     last_name: form.lastName.trim(),
-    country: form.country,
+    nationality: form.nationality,
     phone: form.phone.trim(),
     steam_id: form.steamId.trim(),
     consent_profiling: form.consentProfiling,
@@ -118,7 +118,7 @@ describe('buildRegistrationPayload', () => {
     email: '  User@Example.COM  ',
     firstName: '  Marco  ',
     lastName: '  Rossi  ',
-    country: 'ITA',
+    nationality: 'ITA',
     phone: '+39 02 1234567',
     steamId: '  76561198012345678  ',
     consentProfiling: true,

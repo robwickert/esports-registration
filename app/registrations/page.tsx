@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { signOut } from '@/app/actions/auth'
+import { getChampionship } from '@/lib/championship'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,12 +24,7 @@ export default async function RegistrationsPage({
     .single()
 
   // Get championship
-  const slug = process.env.NEXT_PUBLIC_CHAMPIONSHIP_SLUG ?? 'fia-motorsport-games-2026'
-  const { data: championship } = await supabase
-    .from('championships')
-    .select('id, name, year')
-    .eq('slug', slug)
-    .single()
+  const championship = await getChampionship()
 
   // Get registration
   let registration = null

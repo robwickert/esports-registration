@@ -1,17 +1,10 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { getChampionship } from '@/lib/championship'
 
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const supabase = await createClient()
-  const slug = process.env.NEXT_PUBLIC_CHAMPIONSHIP_SLUG ?? 'fia-motorsport-games-2026'
-  const { data: championship } = await supabase
-    .from('championships')
-    .select('name, year')
-    .eq('slug', slug)
-    .single()
-
+  const championship = await getChampionship()
   const name = championship?.name ?? 'FIA Esports Global Rally Tour'
   const year = championship?.year ?? 2026
 

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import EditRegistrationForm from './EditRegistrationForm'
+import { getChampionship } from '@/lib/championship'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,13 +11,7 @@ export default async function EditRegistrationPage() {
 
   if (!user) redirect('/login')
 
-  const slug = process.env.NEXT_PUBLIC_CHAMPIONSHIP_SLUG ?? 'fia-motorsport-games-2026'
-  const { data: championship } = await supabase
-    .from('championships')
-    .select('id, name, year')
-    .eq('slug', slug)
-    .single()
-
+  const championship = await getChampionship()
   if (!championship) redirect('/registrations')
 
   const { data: registration } = await supabase

@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { buildCsv } from './csv-export'
 
 type Registration = {
   id: string
@@ -26,7 +27,6 @@ type Props = {
   registrations: Registration[]
   nationalities: string[]
   currentNationality: string
-  championshipId: string
 }
 
 export default function AdminTable({ registrations, nationalities, currentNationality }: Props) {
@@ -77,14 +77,7 @@ export default function AdminTable({ registrations, nationalities, currentNation
       new Date(r.created_at).toISOString(),
     ])
 
-    const safeCsvCell = (value: string) => {
-      const escaped = value.replace(/"/g, '""')
-      return /^[=+\-@\t\r]/.test(value) ? `"'${escaped}"` : `"${escaped}"`
-    }
-
-    const csv = [headers, ...rows]
-      .map((row) => row.map((cell) => safeCsvCell(String(cell))).join(','))
-      .join('\n')
+    const csv = buildCsv(headers, rows.map((row) => row.map(String)))
 
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
     const url = URL.createObjectURL(blob)

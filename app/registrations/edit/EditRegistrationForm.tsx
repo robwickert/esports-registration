@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { updateRegistration } from '@/app/actions/registration'
-import { COUNTRIES } from '@/lib/countries'
+import CountrySelect from '@/components/CountrySelect'
 
 type Registration = {
   id: string
@@ -100,19 +100,12 @@ export default function EditRegistrationForm({ registration }: { registration: R
 
       <div>
         <label className={labelClass}>Nationality (according to passport) *</label>
-        <select
+        <CountrySelect
           value={nationality}
-          onChange={(e) => setNationality(e.target.value)}
+          onChange={setNationality}
           required
           className={inputClass}
-        >
-          <option value="">Select nationality</option>
-          {COUNTRIES.map(({ code, name }) => (
-            <option key={code} value={code}>
-              {name} ({code})
-            </option>
-          ))}
-        </select>
+        />
       </div>
 
       <div>
@@ -184,19 +177,12 @@ export default function EditRegistrationForm({ registration }: { registration: R
           </div>
           <div>
             <label className={labelClass}>Nationality (according to passport) *</label>
-            <select
+            <CountrySelect
               value={namedCompetitorNationality}
-              onChange={(e) => setNamedCompetitorNationality(e.target.value)}
+              onChange={setNamedCompetitorNationality}
               required={!isOfLegalAge}
               className={inputClass}
-            >
-              <option value="">Select nationality</option>
-              {COUNTRIES.map(({ code, name }) => (
-                <option key={code} value={code}>
-                  {name} ({code})
-                </option>
-              ))}
-            </select>
+            />
           </div>
           <div>
             <label className={labelClass}>Email *</label>

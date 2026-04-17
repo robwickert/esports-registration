@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import AdminTable from './AdminTable'
+import { getChampionship } from '@/lib/championship'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,12 +25,7 @@ export default async function AdminPage({
   if (!profile?.is_admin) redirect('/')
 
   // Get championship
-  const slug = process.env.NEXT_PUBLIC_CHAMPIONSHIP_SLUG ?? 'fia-motorsport-games-2026'
-  const { data: championship } = await supabase
-    .from('championships')
-    .select('id, name, year')
-    .eq('slug', slug)
-    .single()
+  const championship = await getChampionship()
 
   if (!championship) {
     return (
@@ -85,7 +81,6 @@ export default async function AdminPage({
         registrations={registrations ?? []}
         nationalities={nationalities}
         currentNationality={nationalityFilter ?? ''}
-        championshipId={championship.id}
       />
     </div>
   )

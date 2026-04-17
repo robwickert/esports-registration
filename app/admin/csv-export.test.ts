@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest'
-
-// Mirrors the safeCsvCell function in AdminTable.tsx
-function safeCsvCell(value: string): string {
-  const escaped = value.replace(/"/g, '""')
-  return /^[=+\-@\t\r]/.test(value) ? `"'${escaped}"` : `"${escaped}"`
-}
+import { safeCsvCell } from './csv-export'
 
 describe('safeCsvCell', () => {
   it('wraps normal values in double quotes', () => {

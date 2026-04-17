@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { COUNTRIES } from '@/lib/countries'
+import CountrySelect from '@/components/CountrySelect'
 
 type FormData = {
   email: string
@@ -218,19 +218,13 @@ export default function RegisterForm() {
 
           <div>
             <label className={labelClass}>Nationality (according to passport) *</label>
-            <select
+            <CountrySelect
               value={form.nationality}
-              onChange={(e) => update('nationality', e.target.value)}
+              onChange={(v) => update('nationality', v)}
               required
+              placeholder="Select your nationality"
               className={inputClass}
-            >
-              <option value="">Select your country</option>
-              {COUNTRIES.map(({ code, name }) => (
-                <option key={code} value={code}>
-                  {name} ({code})
-                </option>
-              ))}
-            </select>
+            />
           </div>
 
           <div>
@@ -311,19 +305,12 @@ export default function RegisterForm() {
             </div>
             <div>
               <label className={labelClass}>Nationality (according to passport) *</label>
-              <select
+              <CountrySelect
                 value={form.namedCompetitorNationality}
-                onChange={(e) => update('namedCompetitorNationality', e.target.value)}
+                onChange={(v) => update('namedCompetitorNationality', v)}
                 required={!form.isOfLegalAge}
                 className={inputClass}
-              >
-                <option value="">Select nationality</option>
-                {COUNTRIES.map(({ code, name }) => (
-                  <option key={code} value={code}>
-                    {name} ({code})
-                  </option>
-                ))}
-              </select>
+              />
             </div>
             <div>
               <label className={labelClass}>Email *</label>

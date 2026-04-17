@@ -1,18 +1,11 @@
 import LeaderboardsClient from './LeaderboardsClient'
 import { createClient } from '@/lib/supabase/server'
+import { getChampionship } from '@/lib/championship'
 
 export const dynamic = 'force-dynamic'
 
 export default async function LeaderboardsPage() {
-  const supabase = await createClient()
-
-  const slug = process.env.NEXT_PUBLIC_CHAMPIONSHIP_SLUG ?? 'fia-motorsport-games-2026'
-
-  const { data: championship } = await supabase
-    .from('championships')
-    .select('id, name, year')
-    .eq('slug', slug)
-    .single()
+  const championship = await getChampionship()
 
   if (!championship) {
     return (
@@ -21,6 +14,24 @@ export default async function LeaderboardsPage() {
       </div>
     )
   }
+
+  const supabase = await createClient()
+
+  const [entriesResult, countriesResult] = await Promise.all([
+    supabase
+      .from('leaderboard_entries')
+      .select('id, position, full_name, country, car, time_display')
+      .eq('championship_id', championship.id)
+      .order('position', { ascending: true })
+      .limit(10),
+    supabase
+      .from('leaderboard_entries')
+      .select('country')
+      .eq('championship_id', championship.id),
+  ])
+
+  const initialEntries = entriesResult.data ?? []
+  const allCountries = [...new Set((countriesResult.data ?? []).map((e) => e.country))].sort()
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-16">
@@ -35,7 +46,11 @@ export default async function LeaderboardsPage() {
         <p className="mt-3 text-[var(--muted)]">{championship.name}</p>
       </div>
 
-      <LeaderboardsClient championshipId={championship.id} />
+      <LeaderboardsClient
+        championshipId={championship.id}
+        initialEntries={initialEntries}
+        allCountries={allCountries}
+      />
     </div>
   )
 }
