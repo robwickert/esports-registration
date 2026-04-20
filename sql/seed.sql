@@ -4,8 +4,8 @@
 -- =============================================================================
 
 -- Insert championship
-insert into championships (name, year, slug, is_active)
-values ('FIA Motorsport Games', 2026, 'fia-motorsport-games-2026', true)
+insert into championships (name, year, slug, is_active)                                                                                                          
+  values ('FIA Esports Global Rally Tour', 2026, 'fia-esports-global-rally-tour-2026', true);  
 on conflict (slug) do nothing;
 
 -- =============================================================================
@@ -128,5 +128,5 @@ cross join (values
   ( 99, 'Robin Declercq',       'BEL', 'Tatuus F4-T421', '1:36.196',  96196),
   (100, 'Bartosz Mazur',        'POL', 'Tatuus F4-T421', '1:36.326',  96326)
 ) as entry(position, full_name, country, car, time_display, time_ms)
-where c.slug = 'fia-motorsport-games-2026'
+where c.slug = 'fia-esports-global-rally-tour-2026'
 on conflict do nothing;
