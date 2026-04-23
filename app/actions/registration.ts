@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 export type RegistrationFields = {
   firstName: string
   lastName: string
+  dateOfBirth: string
   nationality: string
   phone: string
   steamId: string
@@ -40,6 +41,7 @@ export async function updateRegistration(
     .update({
       first_name: fields.firstName,
       last_name: fields.lastName,
+      date_of_birth: fields.dateOfBirth,
       nationality: fields.nationality,
       phone: fields.phone,
       steam_id: fields.steamId,

@@ -8,6 +8,7 @@ type Registration = {
   id: string
   first_name: string
   last_name: string
+  date_of_birth: string
   nationality: string
   phone: string
   steam_id: string
@@ -25,6 +26,7 @@ type Registration = {
 export default function EditRegistrationForm({ registration }: { registration: Registration }) {
   const [firstName, setFirstName] = useState(registration.first_name)
   const [lastName, setLastName] = useState(registration.last_name)
+  const [dateOfBirth, setDateOfBirth] = useState(registration.date_of_birth)
   const [nationality, setNationality] = useState(registration.nationality)
   const [phone, setPhone] = useState(registration.phone)
   const [steamId, setSteamId] = useState(registration.steam_id)
@@ -48,6 +50,7 @@ export default function EditRegistrationForm({ registration }: { registration: R
     const result = await updateRegistration(registration.id, {
       firstName,
       lastName,
+      dateOfBirth,
       nationality,
       phone,
       steamId,
@@ -96,6 +99,17 @@ export default function EditRegistrationForm({ registration }: { registration: R
             className={inputClass}
           />
         </div>
+      </div>
+
+      <div>
+        <label className={labelClass}>Date of Birth *</label>
+        <input
+          type="date"
+          value={dateOfBirth}
+          onChange={(e) => setDateOfBirth(e.target.value)}
+          required
+          className={inputClass}
+        />
       </div>
 
       <div>

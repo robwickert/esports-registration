@@ -10,6 +10,7 @@ type FormData = {
   password: string
   firstName: string
   lastName: string
+  dateOfBirth: string
   nationality: string
   phone: string
   steamId: string
@@ -29,6 +30,7 @@ const INITIAL: FormData = {
   password: '',
   firstName: '',
   lastName: '',
+  dateOfBirth: '',
   nationality: '',
   phone: '',
   steamId: '',
@@ -118,6 +120,7 @@ export default function RegisterForm() {
       email: form.email,
       first_name: form.firstName,
       last_name: form.lastName,
+      date_of_birth: form.dateOfBirth,
       nationality: form.nationality,
       phone: form.phone,
       steam_id: form.steamId,
@@ -214,6 +217,17 @@ export default function RegisterForm() {
                 placeholder="Last name"
               />
             </div>
+          </div>
+
+          <div>
+            <label className={labelClass}>Date of Birth *</label>
+            <input
+              type="date"
+              value={form.dateOfBirth}
+              onChange={(e) => update('dateOfBirth', e.target.value)}
+              required
+              className={inputClass}
+            />
           </div>
 
           <div>

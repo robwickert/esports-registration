@@ -35,6 +35,7 @@ create table if not exists registrations (
   email                         text not null,
   first_name                    text not null,
   last_name                     text not null,
+  date_of_birth                 date not null,
   nationality                   text not null,
   phone                         text not null,
   steam_id                      text not null,
@@ -59,7 +60,6 @@ create table if not exists leaderboard_entries (
   position        integer not null,
   full_name       text not null,
   country         text not null,
-  car             text not null,
   time_display    text not null,        -- formatted e.g. "1:23.456"
   time_ms         integer not null,     -- milliseconds, used for sorting
   raw_json        jsonb,                -- raw entry payload from ACR API
