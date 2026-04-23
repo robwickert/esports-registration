@@ -59,7 +59,6 @@ create table if not exists leaderboard_entries (
   position        integer not null,
   full_name       text not null,
   country         text not null,
-  car             text not null,
   time_display    text not null,        -- formatted e.g. "1:23.456"
   time_ms         integer not null,     -- milliseconds, used for sorting
   raw_json        jsonb,                -- raw entry payload from ACR API

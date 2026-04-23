@@ -4,33 +4,27 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 // Types
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * TODO: Update this type once the actual API response shape is confirmed.
- * Field names below are placeholders based on typical leaderboard APIs.
- */
 interface AcrEntry {
-  position: number        // e.g. entry.rank or entry.position
-  driverName: string      // e.g. entry.username or entry.fullName
-  country: string         // e.g. entry.nationality or entry.country (ISO code)
-  car: string             // e.g. entry.carName or entry.vehicle
-  lapTimeMs: number       // e.g. entry.bestLapTime (milliseconds)
-  lapTimeDisplay: string  // e.g. entry.formattedTime or entry.bestLap
-  [key: string]: unknown  // allow extra fields to pass through to raw_json
+  position: number
+  raceEventConfigurationId: string | null
+  trackRunId: number
+  trackId: string
+  countryID: string        // ⚠️ inconsistent: sometimes a numeric ID ("109"), sometimes a name ("Italy")
+  playerProfileID: number
+  playerDisplayName: string
+  carID: string            // internal ID e.g. "HyundaiI20NRally2" — may want a display name lookup later
+  carClassID: string
+  weatherTimeSetupID: string
+  differenceMS: number
+  timeMS: number           // raw lap time in milliseconds (does not include penaltyTimeMS)
+  penaltyTimeMS: number
+  metadata: Record<string, unknown>
+  sectors: string
 }
 
-/**
- * TODO: Update this to match the actual top-level response shape.
- * Common patterns:
- *   { data: AcrEntry[] }
- *   { leaderboard: AcrEntry[], totalCount: number }
- *   AcrEntry[]  (bare array)
- */
 interface AcrResponse {
-  data?: AcrEntry[]
-  leaderboard?: AcrEntry[]
-  results?: AcrEntry[]
-  totalCount?: number
-  total?: number
+  entries: AcrEntry[]
+  fetchedFromCache: boolean
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -39,28 +33,30 @@ interface AcrResponse {
 
 const CHUNK_SIZE = 25
 
-/**
- * Extracts the entries array from the API response.
- * TODO: Update this once the actual response shape is known.
- */
 function extractEntries(response: AcrResponse): AcrEntry[] {
-  return response.data ?? response.leaderboard ?? response.results ?? []
+  return response.entries ?? []
 }
 
 /**
- * Maps a raw API entry to a leaderboard_entries DB row.
- * TODO: Update field names to match the actual API response once known.
+ * Formats milliseconds into m:ss.mmm display string.
+ * e.g. 206940 → "3:26.940"
  */
+function formatTime(ms: number): string {
+  const minutes = Math.floor(ms / 60000)
+  const seconds = Math.floor((ms % 60000) / 1000)
+  const millis  = ms % 1000
+  return `${minutes}:${String(seconds).padStart(2, '0')}.${String(millis).padStart(3, '0')}`
+}
+
 function mapEntry(raw: AcrEntry, championshipId: string) {
   return {
     championship_id: championshipId,
-    position:     raw.position,
-    full_name:    raw.driverName,
-    country:      raw.country,
-    car:          raw.car,
-    time_display: raw.lapTimeDisplay,
-    time_ms:      raw.lapTimeMs,
-    raw_json:     raw,
+    position:        raw.position,
+    full_name:       raw.playerDisplayName,
+    country:         raw.countryID,
+    time_ms:         raw.timeMS,
+    time_display:    formatTime(raw.timeMS),
+    raw_json:        raw,
   }
 }
 
@@ -106,12 +102,10 @@ async function fetchAllEntries(
 // ─────────────────────────────────────────────────────────────────────────────
 
 Deno.serve(async (req: Request) => {
-  // Only allow POST
   if (req.method !== 'POST') {
     return json({ error: 'Method not allowed' }, 405)
   }
 
-  // Optional invoke secret — set INVOKE_SECRET env var to lock down the endpoint
   const invokeSecret = Deno.env.get('INVOKE_SECRET')
   if (invokeSecret) {
     const provided = req.headers.get('x-invoke-secret')
@@ -121,14 +115,14 @@ Deno.serve(async (req: Request) => {
   }
 
   // ── Config ────────────────────────────────────────────────────────────────
-  const baseUrl      = Deno.env.get('ACR_BASE_URL')
-  const challengeId  = Deno.env.get('ACR_CHALLENGE_ID') ?? 'fia_challenge'
-  const platform     = Deno.env.get('ACR_PLATFORM')     ?? 'steam'
-  const authToken    = Deno.env.get('ACR_AUTH_TOKEN')    // base64 Basic auth token
-  const champSlug    = Deno.env.get('CHAMPIONSHIP_SLUG') ?? 'fia-motorsport-games-2026'
+  const baseUrl     = Deno.env.get('ACR_BASE_URL')
+  const challengeId = Deno.env.get('ACR_CHALLENGE_ID') ?? 'fia_challenge'
+  const platform    = Deno.env.get('ACR_PLATFORM')     ?? 'steam'
+  const authToken   = Deno.env.get('ACR_AUTH_TOKEN')
+  const champSlug   = Deno.env.get('CHAMPIONSHIP_SLUG') ?? 'fia-motorsport-games-2026'
 
-  if (!baseUrl) return json({ error: 'ACR_BASE_URL is not set' }, 500)
-  if (!authToken) return json({ error: 'ACR_AUTH_TOKEN is not set' }, 500)
+  if (!baseUrl)    return json({ error: 'ACR_BASE_URL is not set' }, 500)
+  if (!authToken)  return json({ error: 'ACR_AUTH_TOKEN is not set' }, 500)
 
   // ── Supabase client (service role bypasses RLS) ───────────────────────────
   const supabase = createClient(
@@ -136,7 +130,7 @@ Deno.serve(async (req: Request) => {
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
   )
 
-  // ── Resolve championship ───────────────────────────────────────────────────
+  // ── Resolve championship ──────────────────────────────────────────────────
   const { data: championship, error: champError } = await supabase
     .from('championships')
     .select('id')
@@ -147,7 +141,7 @@ Deno.serve(async (req: Request) => {
     return json({ error: `Championship not found for slug: ${champSlug}` }, 404)
   }
 
-  // ── Fetch from ACR API ─────────────────────────────────────────────────────
+  // ── Fetch from ACR API ────────────────────────────────────────────────────
   let rawEntries: AcrEntry[]
   try {
     rawEntries = await fetchAllEntries(baseUrl, challengeId, platform, authToken)

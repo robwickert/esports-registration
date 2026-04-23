@@ -20,7 +20,7 @@ export default async function LeaderboardsPage() {
   const [entriesResult, countriesResult] = await Promise.all([
     supabase
       .from('leaderboard_entries')
-      .select('id, position, full_name, country, car, time_display')
+      .select('id, position, full_name, country, time_display')
       .eq('championship_id', championship.id)
       .order('position', { ascending: true })
       .limit(10),

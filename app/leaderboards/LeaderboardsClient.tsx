@@ -8,7 +8,6 @@ type Entry = {
   position: number
   full_name: string
   country: string
-  car: string
   time_display: string
 }
 
@@ -31,7 +30,7 @@ export default function LeaderboardsClient({ championshipId, initialEntries, all
 
     let query = supabase
       .from('leaderboard_entries')
-      .select('id, position, full_name, country, car, time_display')
+      .select('id, position, full_name, country, time_display')
       .eq('championship_id', championshipId)
       .order('position', { ascending: true })
       .limit(10)
@@ -112,9 +111,6 @@ export default function LeaderboardsClient({ championshipId, initialEntries, all
                 <th className="px-6 py-4 text-left text-xs font-medium tracking-widest text-[var(--muted)] uppercase">
                   Country
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium tracking-widest text-[var(--muted)] uppercase">
-                  Car
-                </th>
                 <th className="px-6 py-4 text-right text-xs font-medium tracking-widest text-[var(--muted)] uppercase">
                   Best Lap
                 </th>
@@ -123,7 +119,7 @@ export default function LeaderboardsClient({ championshipId, initialEntries, all
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-16 text-center text-[var(--muted)]">
+                  <td colSpan={4} className="px-6 py-16 text-center text-[var(--muted)]">
                     <div className="flex items-center justify-center gap-3">
                       <div className="h-4 w-4 rounded-full border-2 border-[var(--accent)] border-t-transparent animate-spin" />
                       Loading leaderboard...
@@ -132,7 +128,7 @@ export default function LeaderboardsClient({ championshipId, initialEntries, all
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-16 text-center text-[var(--muted)]">
+                  <td colSpan={4} className="px-6 py-16 text-center text-[var(--muted)]">
                     No results found.
                   </td>
                 </tr>
@@ -169,7 +165,6 @@ export default function LeaderboardsClient({ championshipId, initialEntries, all
                         </span>
                       </td>
                       <td className="px-6 py-4 text-[var(--muted)]">{entry.country}</td>
-                      <td className="px-6 py-4 text-[var(--muted)]">{entry.car}</td>
                       <td className="px-6 py-4 text-right font-mono font-medium text-[var(--accent)]">
                         {entry.time_display}
                       </td>
