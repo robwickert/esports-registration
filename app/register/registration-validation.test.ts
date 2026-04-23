@@ -24,6 +24,7 @@ function buildRegistrationPayload(form: {
   email: string
   firstName: string
   lastName: string
+  dateOfBirth: string
   nationality: string
   phone: string
   steamId: string
@@ -35,6 +36,7 @@ function buildRegistrationPayload(form: {
     email: form.email.trim().toLowerCase(),
     first_name: form.firstName.trim(),
     last_name: form.lastName.trim(),
+    date_of_birth: form.dateOfBirth,
     nationality: form.nationality,
     phone: form.phone.trim(),
     steam_id: form.steamId.trim(),
@@ -118,6 +120,7 @@ describe('buildRegistrationPayload', () => {
     email: '  User@Example.COM  ',
     firstName: '  Marco  ',
     lastName: '  Rossi  ',
+    dateOfBirth: '1995-06-15',
     nationality: 'ITA',
     phone: '+39 02 1234567',
     steamId: '  76561198012345678  ',
@@ -135,6 +138,11 @@ describe('buildRegistrationPayload', () => {
     const payload = buildRegistrationPayload(base)
     expect(payload.first_name).toBe('Marco')
     expect(payload.last_name).toBe('Rossi')
+  })
+
+  it('preserves date of birth as-is', () => {
+    const payload = buildRegistrationPayload(base)
+    expect(payload.date_of_birth).toBe('1995-06-15')
   })
 
   it('trims steam ID', () => {

@@ -1,5 +1,19 @@
 import { describe, it, expect } from 'vitest'
-import { COUNTRIES } from '../lib/countries'
+import { COUNTRIES, countryName } from '../lib/countries'
+
+describe('countryName', () => {
+  it('returns the full name for a known IOC code', () => {
+    expect(countryName('GBR')).toBe('United Kingdom')
+    expect(countryName('GER')).toBe('Germany')
+    expect(countryName('SUI')).toBe('Switzerland')
+    expect(countryName('NED')).toBe('Netherlands')
+  })
+
+  it('falls back to the raw code for an unknown code', () => {
+    expect(countryName('ZZZ')).toBe('ZZZ')
+    expect(countryName('')).toBe('')
+  })
+})
 
 describe('COUNTRIES list', () => {
   it('is non-empty', () => {

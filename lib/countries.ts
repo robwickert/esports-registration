@@ -147,3 +147,7 @@ export const COUNTRIES: { code: string; name: string }[] = [
   { code: 'ZAM', name: 'Zambia' },
   { code: 'ZIM', name: 'Zimbabwe' },
 ]
+
+export function countryName(code: string): string {
+  return COUNTRIES.find((c) => c.code === code)?.name ?? code
+}

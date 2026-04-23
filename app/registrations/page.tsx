@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { signOut } from '@/app/actions/auth'
 import { getChampionship } from '@/lib/championship'
+import { countryName } from '@/lib/countries'
 
 export const dynamic = 'force-dynamic'
 
@@ -129,14 +130,14 @@ export default async function RegistrationsPage({
             {[
               { label: 'Full Name', value: `${registration.first_name} ${registration.last_name}` },
               { label: 'Email', value: registration.email },
-              { label: 'Nationality', value: registration.nationality },
+              { label: 'Nationality', value: countryName(registration.nationality) },
               { label: 'Phone', value: registration.phone },
               { label: 'Steam ID', value: registration.steam_id },
               { label: 'Legal Age', value: registration.is_of_legal_age ? 'Yes' : 'No' },
               ...(registration.is_of_legal_age ? [] : [
                 { label: 'Named Competitor — First Name', value: registration.named_competitor_first_name ?? '' },
                 { label: 'Named Competitor — Last Name', value: registration.named_competitor_last_name ?? '' },
-                { label: 'Named Competitor — Nationality', value: registration.named_competitor_nationality ?? '' },
+                { label: 'Named Competitor — Nationality', value: countryName(registration.named_competitor_nationality ?? '') },
                 { label: 'Named Competitor — Email', value: registration.named_competitor_email ?? '' },
                 { label: 'Named Competitor — Phone', value: registration.named_competitor_phone ?? '' },
               ]),

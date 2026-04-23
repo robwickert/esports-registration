@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { buildCsv } from './csv-export'
+import { countryName } from '@/lib/countries'
 
 type Registration = {
   id: string
@@ -62,13 +63,13 @@ export default function AdminTable({ registrations, nationalities, currentNation
       r.first_name,
       r.last_name,
       r.email,
-      r.nationality,
+      countryName(r.nationality),
       r.phone,
       r.steam_id,
       r.is_of_legal_age ? 'Yes' : 'No',
       r.named_competitor_first_name ?? '',
       r.named_competitor_last_name ?? '',
-      r.named_competitor_nationality ?? '',
+      countryName(r.named_competitor_nationality ?? ''),
       r.named_competitor_email ?? '',
       r.named_competitor_phone ?? '',
       r.consent_profiling ? 'Yes' : 'No',
@@ -104,7 +105,7 @@ export default function AdminTable({ registrations, nationalities, currentNation
             <option value="">All Nationalities</option>
             {nationalities.map((n) => (
               <option key={n} value={n}>
-                {n}
+                {countryName(n)}
               </option>
             ))}
           </select>
@@ -173,7 +174,7 @@ export default function AdminTable({ registrations, nationalities, currentNation
                       {r.first_name} {r.last_name}
                     </td>
                     <td className="px-4 py-3 text-[var(--muted)]">{r.email}</td>
-                    <td className="px-4 py-3 text-[var(--muted)]">{r.nationality}</td>
+                    <td className="px-4 py-3 text-[var(--muted)]">{countryName(r.nationality)}</td>
                     <td className="px-4 py-3 text-[var(--muted)]">{r.phone}</td>
                     <td className="px-4 py-3 font-mono text-xs text-[var(--muted)]">{r.steam_id}</td>
                     <td className="px-4 py-3">
