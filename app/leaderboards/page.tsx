@@ -34,7 +34,7 @@ export default async function LeaderboardsPage() {
   const allCountries = [...new Set((countriesResult.data ?? []).map((e) => e.country))].sort()
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16">
+    <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Header */}
       <div className="mb-10">
         <p className="text-xs font-medium tracking-widest text-[var(--accent)] uppercase mb-3">
@@ -44,6 +44,19 @@ export default async function LeaderboardsPage() {
           Leaderboards
         </h1>
         <p className="mt-3 text-[var(--muted)]">{championship.name}</p>
+      </div>
+
+      {/* Event info */}
+      <div className="border-y border-[var(--border)] bg-[var(--surface)] -mx-6 px-6 py-6 mb-8 grid grid-cols-2 gap-8">
+        {[
+          { label: 'Car', value: 'Hyundai i20N Rally2' },
+          { label: 'Stage', value: 'Wales – Hafren North – Cwmbiga' },
+        ].map(({ label, value }) => (
+          <div key={label} className="text-center">
+            <div className="text-xl font-black text-[var(--accent)]">{value}</div>
+            <div className="mt-1 text-xs font-medium tracking-widest text-[var(--muted)] uppercase">{label}</div>
+          </div>
+        ))}
       </div>
 
       <LeaderboardsClient

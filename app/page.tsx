@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getChampionship } from '@/lib/championship'
+import GmtClock from '@/components/GmtClock'
 
 export const dynamic = 'force-dynamic'
 
@@ -18,9 +19,12 @@ export default async function HomePage() {
 
         <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-36">
           <div className="max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-lg border border-[var(--accent)]/20 bg-[var(--accent)]/5 px-4 py-1.5 text-xs font-medium tracking-widest text-[var(--accent)] uppercase">
-              <span className="h-1.5 w-1.5 rounded-lg bg-[var(--accent)] animate-pulse" />
-              Registration Open — {year} Edition
+            <div className="mb-6 flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center gap-2 rounded-lg border border-[var(--accent)]/20 bg-[var(--accent)]/5 px-4 py-1.5 text-xs font-medium tracking-widest text-[var(--accent)] uppercase">
+                <span className="h-1.5 w-1.5 rounded-lg bg-[var(--accent)] animate-pulse" />
+                Registration Open — {year} Edition
+              </div>
+              <GmtClock />
             </div>
 
             <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-none mb-6">
@@ -32,9 +36,9 @@ export default async function HomePage() {
             <p className="text-lg md:text-xl text-[var(--muted)] leading-relaxed max-w-2xl mb-10">
               Compete in the official {year} {name} from
               <br />
-              <span className="text-[var(--foreground)] font-semibold">May 12, 2026 at 00:00 GMT</span>{' '}
+              <span className="text-[var(--accent)] font-semibold">May 12, 2026 at 00:00 GMT</span>{' '}
               to{' '}
-              <span className="text-[var(--foreground)] font-semibold">May 25, 2026 at 23:59 GMT</span>.
+              <span className="text-[var(--accent)] font-semibold">May 25, 2026 at 23:59 GMT</span>.
               <br />
               Set the best time possible in this challenge to qualify for your
               respective onsite Regional Shootout.

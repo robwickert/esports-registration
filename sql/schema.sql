@@ -35,6 +35,7 @@ create table if not exists registrations (
   email                         text not null,
   first_name                    text not null,
   last_name                     text not null,
+  date_of_birth                 date not null,
   nationality                   text not null,
   phone                         text not null,
   steam_id                      text not null,
