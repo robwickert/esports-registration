@@ -1,6 +1,7 @@
 import LeaderboardsClient from './LeaderboardsClient'
 import { createClient } from '@/lib/supabase/server'
 import { getChampionship } from '@/lib/championship'
+import Image from 'next/image'
 
 export const dynamic = 'force-dynamic'
 
@@ -47,16 +48,37 @@ export default async function LeaderboardsPage() {
       </div>
 
       {/* Event info */}
-      <div className="border-y border-[var(--border)] bg-[var(--surface)] -mx-6 px-6 py-6 mb-8 grid grid-cols-2 gap-8">
-        {[
-          { label: 'Car', value: 'Hyundai i20N Rally2' },
-          { label: 'Stage', value: 'Wales – Hafren North – Cwmbiga' },
-        ].map(({ label, value }) => (
-          <div key={label} className="text-center">
-            <div className="text-xl font-black text-[var(--accent)]">{value}</div>
-            <div className="mt-1 text-xs font-medium tracking-widest text-[var(--muted)] uppercase">{label}</div>
+      <div className="grid grid-cols-2 gap-4 mb-8">
+        {/* Car image */}
+        <div className="relative h-52">
+          <div className="relative rounded-lg overflow-hidden h-full">
+            <Image
+              src="/fia-acr-rally-car-image-01.jpg"
+              alt="Hyundai i20N Rally2"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute bottom-0 left-0 p-4">
+              <div className="text-white font-black text-lg">Hyundai i20N Rally2</div>
+              <div className="text-white text-xs font-medium tracking-widest uppercase mt-0.5">Car</div>
+            </div>
           </div>
-        ))}
+        </div>
+        {/* Stage image */}
+        <div className="relative h-52">
+          <div className="relative rounded-lg overflow-hidden h-full">
+            <Image
+              src="/fia-acr-rally-car-image-03.jpg"
+              alt="Wales – Hafren North – Cwmbiga"
+              fill
+              className="object-cover object-center"
+            />
+            <div className="absolute bottom-0 left-0 p-4">
+              <div className="text-white font-black text-lg">Wales – Hafren North – Cwmbiga</div>
+              <div className="text-white text-xs font-medium tracking-widest uppercase mt-0.5">Stage</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <LeaderboardsClient

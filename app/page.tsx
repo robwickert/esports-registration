@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { getChampionship } from '@/lib/championship'
 import GmtClock from '@/components/GmtClock'
 
@@ -14,8 +15,17 @@ export default async function HomePage() {
       {/* Hero — unified light background */}
       <section className="relative overflow-hidden bg-[var(--background)]">
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-transparent" />
-        {/* Decorative right panel */}
-        <div className="absolute top-0 right-0 h-full w-1/3 bg-[var(--accent)]/5 [clip-path:polygon(20%_0%,100%_0%,100%_100%,0%_100%)] hidden lg:block" />
+        {/* Car image — right side */}
+        <div className="absolute top-0 right-0 h-full w-[60%] hidden lg:block">
+          <Image
+            src="/fia-acr-rally-car-image-05.jpg"
+            alt="Hyundai i20N Rally2"
+            fill
+            className="object-cover object-left"
+            priority
+          />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #eef1f5 0%, rgba(238,241,245,0.4) 20%, rgba(238,241,245,0) 50%)' }} />
+        </div>
 
         <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-36">
           <div className="max-w-3xl">
