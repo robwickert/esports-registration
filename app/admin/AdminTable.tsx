@@ -101,7 +101,7 @@ export default function AdminTable({
             defaultValue={currentSearch}
             onChange={(e) => handleSearchChange(e.target.value)}
             placeholder="Filter by driver name…"
-            className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors"
+            className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/15 transition-colors"
           />
         </div>
 
@@ -112,7 +112,7 @@ export default function AdminTable({
           <select
             value={currentNationality}
             onChange={(e) => handleNationalityChange(e.target.value)}
-            className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--foreground)] focus:border-[var(--accent)] focus:outline-none transition-colors"
+            className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--foreground)] focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/15 transition-colors"
           >
             <option value="">All Nationalities</option>
             {nationalities.map((n) => (

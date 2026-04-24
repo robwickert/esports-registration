@@ -12,7 +12,7 @@ export default async function RegulationsPage() {
     <div className="relative min-h-screen">
       {/* Background image — right 60% */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 bottom-0 w-[60%]">
+        <div className="absolute top-0 right-0 bottom-0 w-[70%]">
           <Image
             src="/fia-acr-rally-car-image-06.jpg"
             alt=""

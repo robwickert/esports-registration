@@ -146,7 +146,7 @@ export default function RegisterForm() {
   }
 
   const inputClass =
-    'w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-[var(--foreground)] placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors'
+    'w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-[var(--foreground)] placeholder-[var(--muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/15 transition-colors'
   const labelClass =
     'block text-xs font-medium tracking-wide text-[var(--muted)] uppercase mb-2'
 
