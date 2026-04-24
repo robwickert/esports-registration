@@ -1,7 +1,7 @@
 'use client'
 
+import { useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { buildCsv } from './csv-export'
 import { countryName } from '@/lib/countries'
 
 type Registration = {
@@ -28,71 +28,83 @@ type Props = {
   registrations: Registration[]
   nationalities: string[]
   currentNationality: string
+  currentSearch: string
+  total: number
+  page: number
+  pageSize: number
 }
 
-export default function AdminTable({ registrations, nationalities, currentNationality }: Props) {
+export default function AdminTable({
+  registrations,
+  nationalities,
+  currentNationality,
+  currentSearch,
+  total,
+  page,
+  pageSize,
+}: Props) {
   const router = useRouter()
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const totalPages = Math.max(1, Math.ceil(total / pageSize))
+
+  function buildUrl(overrides: Record<string, string | number | undefined>) {
+    const params = new URLSearchParams()
+    const merged = {
+      search: currentSearch,
+      nationality: currentNationality,
+      page: String(page),
+      ...Object.fromEntries(
+        Object.entries(overrides).map(([k, v]) => [k, v === undefined ? '' : String(v)])
+      ),
+    }
+    if (merged.search) params.set('search', merged.search)
+    if (merged.nationality) params.set('nationality', merged.nationality)
+    if (merged.page && merged.page !== '1') params.set('page', merged.page)
+    return `/admin?${params.toString()}`
+  }
+
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+      debounceRef.current = setTimeout(() => {
+        router.push(buildUrl({ search: value, page: 1 }))
+      }, 350)
+    },
+    [currentNationality] // eslint-disable-line react-hooks/exhaustive-deps
+  )
 
   function handleNationalityChange(nationality: string) {
-    const params = new URLSearchParams()
-    if (nationality) params.set('nationality', nationality)
-    router.push(`/admin?${params.toString()}`)
+    router.push(buildUrl({ nationality, page: 1 }))
   }
 
   function exportCsv() {
-    const headers = [
-      'First Name',
-      'Last Name',
-      'Email',
-      'Nationality',
-      'Phone',
-      'Steam ID',
-      'Legal Age',
-      'Named Competitor First Name',
-      'Named Competitor Last Name',
-      'Named Competitor Nationality',
-      'Named Competitor Email',
-      'Named Competitor Phone',
-      'Consent Profiling',
-      'Consent Marketing',
-      'Accepted Regulation',
-      'Registered At',
-    ]
-
-    const rows = registrations.map((r) => [
-      r.first_name,
-      r.last_name,
-      r.email,
-      countryName(r.nationality),
-      r.phone,
-      r.steam_id,
-      r.is_of_legal_age ? 'Yes' : 'No',
-      r.named_competitor_first_name ?? '',
-      r.named_competitor_last_name ?? '',
-      countryName(r.named_competitor_nationality ?? ''),
-      r.named_competitor_email ?? '',
-      r.named_competitor_phone ?? '',
-      r.consent_profiling ? 'Yes' : 'No',
-      r.consent_marketing ? 'Yes' : 'No',
-      r.accepted_regulation ? 'Yes' : 'No',
-      new Date(r.created_at).toISOString(),
-    ])
-
-    const csv = buildCsv(headers, rows.map((row) => row.map(String)))
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `registrations-${new Date().toISOString().split('T')[0]}.csv`
-    a.click()
-    URL.revokeObjectURL(url)
+    const params = new URLSearchParams()
+    if (currentSearch) params.set('search', currentSearch)
+    if (currentNationality) params.set('nationality', currentNationality)
+    window.location.href = `/admin/export?${params.toString()}`
   }
+
+  const start = (page - 1) * pageSize + 1
+  const end = Math.min(page * pageSize, total)
 
   return (
     <div>
       {/* Controls */}
       <div className="flex flex-wrap items-end gap-4 mb-6">
+        <div className="flex-1 min-w-48">
+          <label className="block text-xs font-medium tracking-widest text-[var(--muted)] uppercase mb-2">
+            Search by Name
+          </label>
+          <input
+            type="text"
+            defaultValue={currentSearch}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            placeholder="Filter by driver name…"
+            className="w-full rounded border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors"
+          />
+        </div>
+
         <div className="flex-1 min-w-48">
           <label className="block text-xs font-medium tracking-widest text-[var(--muted)] uppercase mb-2">
             Filter by Nationality
@@ -112,8 +124,8 @@ export default function AdminTable({ registrations, nationalities, currentNation
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="text-sm text-[var(--muted)]">
-            <span className="font-bold text-[var(--foreground)]">{registrations.length}</span> registrations
+          <div className="text-sm text-[var(--muted)] whitespace-nowrap">
+            <span className="font-bold text-[var(--foreground)]">{total}</span> registrations
           </div>
           <button
             onClick={exportCsv}
@@ -199,6 +211,44 @@ export default function AdminTable({ registrations, nationalities, currentNation
           </table>
         </div>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-4 text-sm">
+          <p className="text-[var(--muted)]">
+            Showing {start}–{end} of {total}
+          </p>
+          <div className="flex items-center gap-2">
+            <a
+              href={page > 1 ? buildUrl({ page: page - 1 }) : undefined}
+              aria-disabled={page <= 1}
+              className={[
+                'rounded border px-3 py-1.5 text-xs font-medium transition-colors',
+                page <= 1
+                  ? 'border-[var(--border)] text-[var(--muted)] opacity-40 pointer-events-none'
+                  : 'border-[var(--border)] text-[var(--foreground)] hover:border-[var(--accent)] hover:text-[var(--accent)]',
+              ].join(' ')}
+            >
+              ← Prev
+            </a>
+            <span className="text-[var(--muted)] px-2">
+              Page {page} of {totalPages}
+            </span>
+            <a
+              href={page < totalPages ? buildUrl({ page: page + 1 }) : undefined}
+              aria-disabled={page >= totalPages}
+              className={[
+                'rounded border px-3 py-1.5 text-xs font-medium transition-colors',
+                page >= totalPages
+                  ? 'border-[var(--border)] text-[var(--muted)] opacity-40 pointer-events-none'
+                  : 'border-[var(--border)] text-[var(--foreground)] hover:border-[var(--accent)] hover:text-[var(--accent)]',
+              ].join(' ')}
+            >
+              Next →
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
