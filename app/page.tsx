@@ -14,7 +14,6 @@ export default async function HomePage() {
     <div>
       {/* Hero — unified light background */}
       <section className="relative overflow-hidden bg-[var(--background)]">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-transparent" />
         {/* Car image — right side */}
         <div className="absolute top-0 right-0 h-full w-[60%] hidden lg:block">
           <Image
@@ -24,7 +23,7 @@ export default async function HomePage() {
             className="object-cover object-left"
             priority
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #eef1f5 0%, rgba(238,241,245,0.4) 20%, rgba(238,241,245,0) 50%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #f4f6f9 0%, rgba(244,246,249,0.4) 20%, rgba(244,246,249,0) 50%)' }} />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-36">

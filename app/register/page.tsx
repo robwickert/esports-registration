@@ -22,7 +22,7 @@ export default async function RegisterPage() {
     <div className="relative min-h-screen">
       {/* Background image — right 50% */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 bottom-0 w-[60%]">
+        <div className="absolute top-0 right-0 bottom-0 w-[70%]">
           <Image
             src="/fia-acr-rally-car-image-02.jpg"
             alt=""
@@ -41,12 +41,12 @@ export default async function RegisterPage() {
 
       {/* Content */}
       <div className="relative mx-auto max-w-2xl px-6 py-16">
-        <div className="mb-10">
+        <div className="mb-12">
           <p className="text-xs font-medium tracking-widest text-[var(--accent)] uppercase mb-3">
             {year} Season
           </p>
-          <h1 className="text-4xl font-black text-[var(--foreground)]">Register to Compete</h1>
-          <p className="mt-2 text-sm text-[var(--muted)]">
+          <h1 className="text-4xl md:text-5xl font-black text-[var(--foreground)] mb-4">Register to Compete</h1>
+          <p className="text-[var(--muted)]">
             Already registered?{' '}
             <a href="/login" className="text-[var(--accent)] hover:underline">
               Sign in
