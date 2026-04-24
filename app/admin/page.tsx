@@ -5,17 +5,18 @@ import { getChampionship } from '@/lib/championship'
 
 export const dynamic = 'force-dynamic'
 
+const PAGE_SIZE = 50
+
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ nationality?: string }>
+  searchParams: Promise<{ nationality?: string; search?: string; page?: string }>
 }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) redirect('/login')
 
-  // Verify admin
   const { data: profile } = await supabase
     .from('profiles')
     .select('is_admin')
@@ -24,7 +25,6 @@ export default async function AdminPage({
 
   if (!profile?.is_admin) redirect('/')
 
-  // Get championship
   const championship = await getChampionship()
 
   if (!championship) {
@@ -35,21 +35,22 @@ export default async function AdminPage({
     )
   }
 
-  const { nationality: nationalityFilter } = await searchParams
+  const { nationality: nationalityFilter, search: searchFilter, page: pageParam } = await searchParams
+  const currentPage = Math.max(1, Number(pageParam ?? 1))
+  const offset = (currentPage - 1) * PAGE_SIZE
 
   let query = supabase
     .from('registrations')
-    .select('*')
+    .select('*', { count: 'exact' })
     .eq('championship_id', championship.id)
     .order('created_at', { ascending: false })
 
-  if (nationalityFilter) {
-    query = query.eq('nationality', nationalityFilter)
-  }
+  if (nationalityFilter) query = query.eq('nationality', nationalityFilter)
+  if (searchFilter) query = query.or(`first_name.ilike.%${searchFilter}%,last_name.ilike.%${searchFilter}%`)
 
-  const { data: registrations } = await query
+  const { data: registrations, count } = await query.range(offset, offset + PAGE_SIZE - 1)
 
-  // Available nationalities for filter
+  // Available nationalities for filter (always unfiltered)
   const { data: allNationalities } = await supabase
     .from('registrations')
     .select('nationality')
@@ -81,6 +82,10 @@ export default async function AdminPage({
         registrations={registrations ?? []}
         nationalities={nationalities}
         currentNationality={nationalityFilter ?? ''}
+        currentSearch={searchFilter ?? ''}
+        total={count ?? 0}
+        page={currentPage}
+        pageSize={PAGE_SIZE}
       />
     </div>
   )

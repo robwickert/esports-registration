@@ -1,6 +1,28 @@
+import Image from 'next/image'
+
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
+    <div className="relative min-h-screen">
+      {/* Background image — right 60% */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 right-0 bottom-0 w-[60%]">
+          <Image
+            src="/fia-acr-rally-car-image-04.jpg"
+            alt=""
+            fill
+            className="object-cover object-left"
+            priority
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(to right, #f4f6f9 0%, rgba(244,246,249,0.7) 30%, rgba(244,246,249,0.2) 60%, rgba(244,246,249,0) 80%)',
+            }}
+          />
+        </div>
+      </div>
+
+    <div className="relative mx-auto max-w-4xl px-6 py-16">
       {/* Header */}
       <div className="mb-12">
         <p className="text-xs font-medium tracking-widest text-[var(--accent)] uppercase mb-3">
@@ -126,6 +148,7 @@ export default function AboutPage() {
         </section>
 
       </div>
+    </div>
     </div>
   )
 }
